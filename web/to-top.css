@@ -1,0 +1,18 @@
+#back_to_top {
+    background-color: rgb(129, 192, 242);
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+    text-align: center;
+    vertical-align: middle;
+    width: 70px;
+    height: 70px;
+    line-height: 90px;
+    color: #fff;
+    border-radius: 50%;
+    display: none;
+    cursor: pointer;
+}
+#back_to_top:hover {
+    background-color: rgb(45, 150, 233);
+}

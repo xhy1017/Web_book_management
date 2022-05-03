@@ -14,25 +14,6 @@
     <title>删除图书</title>
 </head>
 <body>
-<script src="to-top.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
-<script>
-    $(function (){
-        $("#proverb_book").click(function (){
-            //获取pageSize值
-            let pagesize=$("#pageSize").val();
-            //拼接一下
-            $.post("Paged_Servlet",$("#search_book_form").serialize()+"&pageSize="+pagesize,function (data,status){
-                console.log(status);
-                console.log($("#search_book_form").serialize()+"&pageSize="+pagesize)
-                alert(data);
-                $("#test1").load("delete_book.jsp");
-            },"html");
-        });
-    })
-</script>
 <div>
     <form id="search_book_form" >
         <table class="table-hover" style="margin-bottom: auto">
@@ -58,6 +39,115 @@
         </table>
     </form>
 </div>
+<%--展示数据--%>
+<form>
+    <table class="table table-hover " id="book_table">
+        <thead class="thead-light" >
+        <tr>
+            <th>
+                <label style="margin-bottom:0rem">
+                    <input type="checkbox" id="select_all" style="width:50px;height:20px">全选
+                </label>
+            </th>
+            <th>书号ID</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>出版社</th>
+            <th>价格</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:if test="${not empty sessionScope.PageBean_book.list}">
+            <c:forEach items="${sessionScope.PageBean_book.list}" var="Book" varStatus="S">
+                <tr>
+                    <td id="delete">
+                            <%--平行--%>
+                        <label style="margin-bottom:0rem">
+                            <input type="checkbox" style="width:50px;height:20px" name="checked" value="${Book.bkID}">${S.count}
+                        </label>
+                    </td>
+                    <td><strong>${Book.bkID}</strong></td>
+                    <td style="color: darkorange">${Book.bkName}</td>
+                    <td><strong>${Book.bkAuthor}</strong></td>
+                    <td><strong>${Book.bkPress}</strong></td>
+                    <td><strong>${Book.bkPrice}</strong></td>
+                    <td  style="color:dodgerblue">${Book.bkStatus}</td>
+                    <td><button  id="single_delete" type="button" class=" btn btn-outline-danger">删除选中</button></td>
+                </tr>
+            </c:forEach>
+        </c:if>
+        </tbody>
+    </table>
+</form>
+<%--分页--%>
+<div class="row">
+    <div class="col-lg-6">
+        <table class="table table-borderless">
+            <tr>
+                <td style="vertical-align: bottom;">
+                    <p class="h6 text-lg-left"><strong>当前第&nbsp;${sessionScope.PageBean_book.currentPage}&nbsp;页,</strong></p>
+                </td>
+                <td style="vertical-align: bottom;">
+                    <p class="h6 text-lg-right"><strong>每页记录数</strong></p>
+                </td>
+                <td style="vertical-align: bottom;">
+                    <select class="form-control"   id="pageSize" name="pageSize">
+                        <%--   数据回显 记录用户选择的每页记录数--%>
+                        <option value="5"
+                                <c:if test="${'5' eq sessionScope.PageBean_book.pageSize}">
+                                    selected
+                                </c:if> >5/页
+                        </option>
+                        <option value="10"
+                                <c:if test="${'10' eq sessionScope.PageBean_book.pageSize}">selected</c:if> >
+                            10/页
+                        </option>
+                        <option value="15" <c:if test="${'15' eq sessionScope.PageBean_book.pageSize}">selected</c:if> >
+                            15/页
+                        </option>
+                    </select>
+                </td>
+                <td style="vertical-align: bottom;">
+                    <p class="h6 text-lg-right"><strong>总${sessionScope.PageBean_book.totalPages} 页,总${sessionScope.PageBean_book.totalRecord}条记录</strong></p>
+                </td>
+                <td><button class="btn btn-outline-danger" id="multiple_delete">批量删除</button></td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="col-lg-6">
+        <div id="back_to_top">返回顶部</div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination pagination-lg justify-content-center">
+                <li class="page-item"><a id="FirstPage" class="page-link btn-outline-primary" href="javascript:void(0)">首页</a></li>
+                <li class="page-item"><a  id="PreviousPage" class="page-link btn-outline-primary" href="javascript:void(0)">上一页</a></li>
+                <li class="page-item"><a id="SubsequentPage" class="page-link btn-outline-primary" href="javascript:void(0)">下一页</a></li>
+                <li class="page-item"><a  id="LastPage" class="page-link btn-outline-primary" href="javascript:void(0)">尾页</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<%--返回顶部--%>
+<script src="to-top.js"></script>
+<%--查询按钮--%>
+<script>
+    $(function (){
+        $("#proverb_book").click(function (){
+            //获取pageSize值
+            let pagesize=$("#pageSize").val();
+            //拼接一下
+            $.post("Paged_Servlet",$("#search_book_form").serialize()+"&pageSize="+pagesize,function (data,status){
+                console.log(status);
+                console.log($("#search_book_form").serialize()+"&pageSize="+pagesize)
+                alert(data);
+                $("#test1").load("delete_book.jsp");
+            },"html");
+        });
+    })
+</script>
+<%--判断上一页、下一页--%>
 <script>
     $(function (){
         <c:if test="${not empty sessionScope.PageBean_book}">
@@ -119,9 +209,47 @@
         })
     })
 </script>
+<%--引入bootstrap.js css jquery.js--%>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<%--判断是否满足删除条件--%>
 <script>
-    $("").on('show.bs.modal',function (){
-
+    $(document).click(function (e){
+        if($(e.target).attr('id')==='single_delete'){
+            var str=""
+            let option=$("#delete input:checked");
+            if(option.length===0){
+                alert("请先勾选再进行操作!")
+                return false;
+            }
+            if(option.length>1){
+                alert("哥哥，只能选中一项删除哦!");
+                return false;
+            }
+            if ($(e.target).parents('tr').children('td').eq(6).text()==='借出'){
+                alert("该书不可删除哦,它已被借出");
+                return false;
+            }
+            else {
+                if(confirm("确认删除吗?")){
+                    str+="checked="+option.value+"&";
+                    str=str.substring(0,str.length-1);
+                    console.log(str)
+                    $.post("Remove_book_Servlet",str,function (data,status){
+                        alert("删除成功");
+                        console.log(data);
+                        console.log(status);
+                        $.post("Paged_Servlet",function (data,status){
+                            console.log(data)
+                            console.log(status)
+                            $("#test1").load("delete_book.jsp");
+                        },'html')
+                    },'html')
+                }
+                return false;
+            }
+        }
     })
 </script>
 <script>
@@ -136,101 +264,13 @@
             const all = option.length;
             //选中的个数
             const checked = $("#delete input:checked").length;
+            //设置全选框也被选中
             $("#select_all").prop('checked',all===checked);
         })
     })
 </script>
-<form>
-    <table class="table table-hover " id="book_table">
-        <thead class="thead-light" >
-        <tr>
-            <th>
-                <label style="margin-bottom:0rem">
-                    <input type="checkbox" id="select_all" style="width:50px;height:20px">全选
-                </label>
-            </th>
-            <th>书号ID</th>
-            <th>书名</th>
-            <th>作者</th>
-            <th>出版社</th>
-            <th>价格</th>
-            <th>状态</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:if test="${not empty sessionScope.PageBean_book.list}">
-            <c:forEach items="${sessionScope.PageBean_book.list}" var="Book" varStatus="S">
-                <tr>
-                    <td id="delete">
-<%--平行--%>
-                        <label style="margin-bottom:0rem">
-                            <input type="checkbox" style="width:50px;height:20px" name="checked" value="${Book.bkID}">${S.count}
-                        </label>
-                    </td>
-                    <td><strong>${Book.bkID}</strong></td>
-                    <td style="color: darkorange">${Book.bkName}</td>
-                    <td><strong>${Book.bkAuthor}</strong></td>
-                    <td><strong>${Book.bkPress}</strong></td>
-                    <td><strong>${Book.bkPrice}</strong></td>
-                    <td  style="color:dodgerblue">${Book.bkStatus}</td>
-                    <td><button type="button" class=" btn btn-outline-danger">删除选中</button></td>
-                </tr>
-            </c:forEach>
-        </c:if>
-        </tbody>
-    </table>
-</form>
-<div class="row">
-    <div class="col-lg-6">
-        <table class="table table-borderless">
-            <tr>
-                <td style="vertical-align: bottom;">
-                    <p class="h6 text-lg-left"><strong>当前第&nbsp;${sessionScope.PageBean_book.currentPage}&nbsp;页,</strong></p>
-                </td>
-                <td style="vertical-align: bottom;">
-                    <p class="h6 text-lg-right"><strong>每页记录数</strong></p>
-                </td>
-                <td style="vertical-align: bottom;">
-                    <select class="form-control"   id="pageSize" name="pageSize">
-                        <%--   数据回显 记录用户选择的每页记录数--%>
-                        <option value="5"
-                                <c:if test="${'5' eq sessionScope.PageBean_book.pageSize}">
-                                    selected
-                                </c:if> >5/页
-                        </option>
-                        <option value="10"
-                                <c:if test="${'10' eq sessionScope.PageBean_book.pageSize}">selected</c:if> >
-                            10/页
-                        </option>
-                        <option value="15" <c:if test="${'15' eq sessionScope.PageBean_book.pageSize}">selected</c:if> >
-                            15/页
-                        </option>
-                    </select>
-                </td>
-                <td style="vertical-align: bottom;">
-                    <p class="h6 text-lg-right"><strong>总${sessionScope.PageBean_book.totalPages} 页,总${sessionScope.PageBean_book.totalRecord}条记录</strong></p>
-                </td>
-                <td><button class="btn btn-outline-danger" id="mutiple_delete">批量删除</button></td>
-            </tr>
-        </table>
-
-    </div>
-    <div class="col-lg-6">
-        <div id="back_to_top">返回顶部</div>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination pagination-lg justify-content-center">
-                <li class="page-item"><a id="FirstPage" class="page-link btn-outline-primary" href="javascript:void(0)">首页</a></li>
-                <li class="page-item"><a  id="PreviousPage" class="page-link btn-outline-primary" href="javascript:void(0)">上一页</a></li>
-                <li class="page-item"><a id="SubsequentPage" class="page-link btn-outline-primary" href="javascript:void(0)">下一页</a></li>
-                <li class="page-item"><a  id="LastPage" class="page-link btn-outline-primary" href="javascript:void(0)">尾页</a></li>
-            </ul>
-        </nav>
-    </div>
-
-</div>
 <script>
-    $("#mutiple_delete").click(function (){
+    $("#multiple_delete").click(function (){
         let option=$("#delete input");
         let option2=$("#delete input:checked");
         var str="";
@@ -259,8 +299,8 @@
             return false;
         }
         //不是全选状态
-        if(option2.length>0){
-            if(confirm("还是决定要删除了吗\n帅的人已经醒来~~~"))
+        if(option2.length>1){
+            if(confirm("真的要把它们抛弃了吗\n帅的人已经醒来~~~hhh"))
             {
                 for (let i = 0; i < option2.length; i++) {
                     str+="checked="+option2[i].value+"&";
@@ -280,10 +320,9 @@
             }
             return false;
         }else {
-            alert("请至少选择一项进行操作")
+            alert("请至少选择2项进行操作")
             return false;
         }
-
     })
 </script>
 </body>

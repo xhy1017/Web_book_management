@@ -10,7 +10,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="script" href="to-top.js">
     <link rel="stylesheet" href="to-top.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" >
     <title>修改书籍信息</title>
@@ -29,6 +28,7 @@
                 <td class="h5">状态</td>
                 <td>
                     <select name="bkStatus" class="form-control">
+                        <option></option>
                         <option value="在馆">在馆</option>
                         <option value="借出">借出</option>
                     </select>
@@ -182,8 +182,8 @@
                                 <td class="h5">状态<br><span class="btn-sm btn-outline-danger">必填项</span></td>
                                 <td>
                                     <select name="bkStatus" id="bkStatus"  class="form-control">
-                                        <option style="display: none">请选择</option>
-                                        <option value="在馆">在馆</option>
+<%--                                        <option style="display: none">请选择</option>--%>
+<%--                                        <option value="在馆">在馆</option>--%>
                                         <option value="借出">借出</option>
                                     </select>
                                     <span id="info5"  style="color: red;display: none">值已修改</span>

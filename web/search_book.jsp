@@ -38,6 +38,14 @@
                         <option value="借出">借出</option>
                     </select>
                 </td>
+                <%--                设置选中项--%>
+                <script>
+                    <%--                  特殊对待  --%>
+                    <c:if test="${not empty PageBean_book.vague_query.bkStatus}">
+                    $("select:first").find("option[value=${sessionScope.PageBean_book.vague_query.bkStatus}]").attr("selected",true);
+                    </c:if>
+                </script>
+
             </tr>
             <tr>
                 <td colspan="2"><input type="button" id="proverb_book" class="form-control btn-outline-info" value="查询"></td>
@@ -145,11 +153,11 @@
         });
     })
 </script>
+<%--上一页下一页--%>
 <script>
     $(function (){
         <c:if test="${not empty sessionScope.PageBean_book}">
         let curpage =${sessionScope.PageBean_book.currentPage};
-        </c:if>
         $("#FirstPage").click(function (){
             //考虑到有没有记录，0代表没有结果
             if(curpage===1||curpage===0){
@@ -188,7 +196,6 @@
                 $("#test1").load("search_book.jsp");
             },"html")
         })
-
         $("#SubsequentPage").click(function (){
             if(curpage===${sessionScope.PageBean_book.totalPages}){
                 alert("已经是尾页了");
@@ -204,32 +211,10 @@
                 $("#test1").load("search_book.jsp");
             },"html")
         })
+        </c:if>
     })
 </script>
-<%--以外部引入方式--%>
+<%--以外部引入方式返回顶部--%>
 <script src="to-top.js"></script>
-<%--<script>--%>
-<%--    var my_back_to_top = document.getElementById('back_to_top');--%>
-<%--    window.onscroll = function() {--%>
-<%--        my_back_to_top.style.display = 'block';--%>
-<%--        var height = document.documentElement.scrollTop || document.body.scrollTop;--%>
-<%--        if(height === 0) {--%>
-<%--            my_back_to_top.style.display = 'none';--%>
-<%--        }--%>
-<%--    }--%>
-<%--    my_back_to_top.onclick = function() {--%>
-<%--        var height = document.documentElement.scrollTop || document.body.scrollTop;--%>
-<%--        var t = setInterval(() => {--%>
-<%--            height -= 50;--%>
-<%--            if (height > 0) {--%>
-<%--                window.scrollTo(0, height);--%>
-<%--            } else {--%>
-<%--                window.scrollTo(0, 0);--%>
-<%--                clearInterval(t);--%>
-<%--            }--%>
-<%--            //10ms,滚动一次，一次减少50px；慢慢滚动到顶部为止清空--%>
-<%--        }, 10);--%>
-<%--    }--%>
-<%--</script>--%>
 </body>
 </html>

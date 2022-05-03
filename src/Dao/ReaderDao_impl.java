@@ -65,6 +65,33 @@ public class ReaderDao_impl implements ReaderDao {
     }
 
     @Override
+    public int Remove_reader(String... rdIDs) {
+        int i=0;
+        for (String rdID : rdIDs) {
+            i = Remove_reader(rdID);
+        }
+        return i;
+    }
+    public int Remove_reader(String ID) {
+        try {
+            conn=JDBCUtils.getConnection();
+            String sql="delete from reader where rdID=?";
+            pst=conn.prepareStatement(sql);
+            pst.setString(1,ID);
+            return pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                JDBCUtils.close(pst, conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
+    }
+    @Override
     public List<Reader> FindAllReader(String rdID) {
     //不输入读者id时的情形
         if (!"".equals(rdID)) {
@@ -312,9 +339,5 @@ public class ReaderDao_impl implements ReaderDao {
         return 0;
     }
 
-    @Override
-    public int deleteReader(Reader reader) {
-        return 0;
-    }
 }
 

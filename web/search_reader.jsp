@@ -17,6 +17,7 @@
     <title>查找读者</title>
 </head>
 <body>
+<%--搜索框--%>
 <div>
     <form id="search_reader_form">
         <table class="table-hover">
@@ -36,8 +37,10 @@
                 </td>
 <%--                设置选中项--%>
                 <script>
-                    $("select").find("option[value=${sessionScope.PageBean_reader.vague_query.rdType}]").attr("selected",true);
-
+<%--                  特殊对待  --%>
+                    <c:if test="${not empty PageBean_reader.vague_query.rdType}">
+                    $("select:first").find("option[value=${sessionScope.PageBean_reader.vague_query.rdType}]").attr("selected",true);
+                    </c:if>
                 </script>
                 <td class="h5">姓名:</td>
                 <td><input type="text" class="form-control row-cols-3"  value="${sessionScope.PageBean_reader.vague_query.rdName}" name="rdName"></td>
@@ -56,6 +59,7 @@
         </table>
     </form>
 </div>
+<%--展示数据--%>
 <table class="table table-hover ">
     <thead class="thead-light" >
     <tr>
@@ -64,7 +68,7 @@
         <th>姓名</th>
         <th>所属院系</th>
         <th>QQ</th>
-        <th>已借书数量</th>
+        <th class="text-center">已借书数量</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -81,13 +85,14 @@
         <td><strong>${Reader.rdName}</strong></td>
         <td>${Reader.rdDept}</td>
         <td>${Reader.rdQQ}</td>
-        <td>${Reader.rdBorrowQty}</td>
-        <td><a href="#">删除选中</a></td>
+        <td class="text-center">${Reader.rdBorrowQty}</td>
+        <td><button type="button" class="btn btn-info">查看密码</button></td>
     <tr>
         </c:forEach>
         </c:if>
     </tbody>
 </table>
+<%--分页组件--%>
 <div class="row">
     <div class="col-lg-6">
         <table class="table-borderless">
@@ -101,20 +106,21 @@
                 <td style="vertical-align: bottom;">
                     <select class="form-control"   id="pageSize" name="pageSize">
                         <%--   数据回显 记录用户选择的每页记录数--%>
-                        <option value="5"
-<%--                                <c:if test="${'5' eq sessionScope.PageBean_reader.pageSize}">--%>
+                        <option value="5">5/页
+<%--                           原来老方法判断     <c:if test="${'5' eq sessionScope.PageBean_reader.pageSize}">--%>
 <%--                                    selected</c:if> --%>
-                        >5/页
+
                         </option>
-                        <option value="10">
+                        <option value="10">10/页
 <%--                                <c:if test="${'10' eq sessionScope.PageBean_reader.pageSize}">selected</c:if> >--%>
 <%--                            10/页--%>
                         </option>
-                        <option value="15">
+                        <option value="15">15/页
 <%--                                <c:if test="${'15' eq sessionScope.PageBean_reader.pageSize}">selected</c:if> >--%>
 <%--                            15/页--%>
                         </option>
                     </select>
+<%--                    有了更好的方法保持分页大小不变--%>
                     <script>
                         $("select:last").find("option[value=${sessionScope.PageBean_reader.pageSize}]").attr("selected",true);
 
@@ -140,9 +146,9 @@
         </nav>
     </div>
 </div>
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/umd/popper.min.js" ></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<%--返回顶部--%>
+<script src="to-top.js"></script>
+<%--查询.js--%>
 <script>
     $(function (){
         $("#proverb_reader").click(function (){
@@ -158,6 +164,7 @@
         });
     })
 </script>
+<%--下一页上一页--%>
 <script>
     $(function (){
         <c:if test="${not empty sessionScope.PageBean_reader}">
@@ -219,6 +226,11 @@
         })
     })
 </script>
-<script src="to-top.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+
+
+
 </body>
 </html>

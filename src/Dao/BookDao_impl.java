@@ -46,10 +46,10 @@ public class BookDao_impl implements BookDao {
     }
 
     @Override
-    public int Remove_book(String[] bkIDs) {
+    public int Remove_book(String... bkIDs) {
         int i=0;
-        for (int j = 0; j < bkIDs.length; j++) {
-            i=Remove_book(bkIDs[i]);
+        for (String bkID : bkIDs) {
+            i = Remove_book(bkID);
         }
       return i;
     }

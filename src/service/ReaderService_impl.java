@@ -19,6 +19,11 @@ public class ReaderService_impl implements ReaderService {
     }
 
     @Override
+    public int Remove_reader(String... rdIDs) {
+        return readerDao.Remove_reader(rdIDs);
+    }
+
+    @Override
     public List<Reader> FindAllReader(String rdID) {
         //调用readerdao_impl实现的方法
         return readerDao.FindAllReader(rdID);

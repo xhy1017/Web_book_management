@@ -112,6 +112,27 @@
         <td><input type="file" name="bkImage" accept="image/jpeg,image/jpeg,image/png" id="add_image">
             <img id="show_img"  style="display: none;width: 200px;height: 200px" alt="暂无" src=""></td>
     </tr>
+    <tr>
+        <td>
+            添加简介:
+        </td>
+        <td><div style="position:relative;padding-bottom:20px">
+            <textarea  onkeyup="rest_words(this,100,'input_words')" placeholder="请输入书籍简介信息" style="resize: none" maxlength="100" rows="5" cols="10" class="form-control col-md-5" name="book_info"></textarea>
+            <span  id="input_words" style="color:#BDCADA;text-align: end ;font-size:12px;position:absolute;height:20px;left:300px;bottom:0;"></span>
+        </div>
+        </td>
+        <script>
+            function rest_words(obj,maxlength,id)
+            {
+                var num=maxlength-obj.value.length;
+                var leng=id;
+                if(num<0){
+                    num=0;
+                }
+                document.getElementById(leng).innerHTML="剩余"+num+"/100"+"字符";
+            }
+        </script>
+    </tr>
 <tr>
      <td><input  type="reset" class="col-sm-5 btn btn-outline-danger"  value="重置"></td>
 <%--    type改为button完美解决问题--%>

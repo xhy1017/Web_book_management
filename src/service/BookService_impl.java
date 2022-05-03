@@ -17,7 +17,7 @@ public class BookService_impl implements BookService {
     }
 
     @Override
-    public int Remove_book(String[] bkIDs) {
+    public int Remove_book(String... bkIDs) {
         return bookDao.Remove_book(bkIDs);
     }
 

@@ -8,6 +8,7 @@ public class Book {
     private String bkPrice;
     private String bkStatus;
     private String bkURL;
+    private String bkResume;
 
     public String getBkURL() {
         return bkURL;
@@ -80,6 +81,15 @@ public class Book {
                 ", bkPrice='" + bkPrice + '\'' +
                 ", bkStatus='" + bkStatus + '\'' +
                 ", bkURL='" + bkURL + '\'' +
+                ", bkResume='" + bkResume + '\'' +
                 '}';
+    }
+
+    public String getBkResume() {
+        return bkResume;
+    }
+
+    public void setBkResume(String bkResume) {
+        this.bkResume = bkResume;
     }
 }

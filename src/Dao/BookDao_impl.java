@@ -23,7 +23,7 @@ public class BookDao_impl implements BookDao {
     public int AddBook(Book book) {
         try {
             conn = JDBCUtils.getConnection();
-            String sql = "INSERT INTO book values(?,?,?,?,?,?)";
+            String sql = "INSERT INTO book values(?,?,?,?,?,?,?,?)";
             //预编译sql语句
             pst = conn.prepareStatement(sql);
             pst.setString(1, book.getBkID());
@@ -32,6 +32,8 @@ public class BookDao_impl implements BookDao {
             pst.setString(4, book.getBkPress());
             pst.setString(5, book.getBkPrice());
             pst.setString(6, book.getBkStatus());
+            pst.setString(7, book.getBkURL());
+            pst.setString(8, book.getBkResume());
             return pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,7 +46,6 @@ public class BookDao_impl implements BookDao {
         }
         return 0;
     }
-
     @Override
     public int Remove_book(String... bkIDs) {
         int i=0;
@@ -215,6 +216,7 @@ public class BookDao_impl implements BookDao {
                     book.setBkPress(rs.getString("bkPress"));
                     book.setBkStatus(rs.getString("bkStatus"));
                     book.setBkURL(rs.getString("bkURL"));
+                    book.setBkResume(rs.getString("bkResume"));
                     bookList.add(book);
                 }
                 //设置总记录数

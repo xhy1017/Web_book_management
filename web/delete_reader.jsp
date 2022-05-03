@@ -129,8 +129,9 @@
                         </option>
                     </select>
                     <script>
+                        <c:if test="${not empty sessionScope.PageBean_reader.pageSize}">
                         $("select:last").find("option[value=${sessionScope.PageBean_reader.pageSize}]").attr("selected",true);
-
+                        </c:if>
                     </script>
                 </td>
                 <td style="vertical-align: bottom;">

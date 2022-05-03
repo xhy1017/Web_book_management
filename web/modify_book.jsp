@@ -62,13 +62,13 @@
                 <tr>
                     <td>${S.count}</td>
                     <td><img src="${Book.bkURL}" style="width:120px;height: 150px" alt=""></td>
-                    <td><strong>${Book.bkID}</strong></td>
-                    <td style="color: darkorange">${Book.bkName}</td>
-                    <td><strong>${Book.bkAuthor}</strong></td>
-                    <td><strong>${Book.bkPress}</strong></td>
-                    <td><strong>${Book.bkPrice}</strong></td>
-                    <td style="color:dodgerblue">${Book.bkStatus}</td>
-                    <td><button id="modify_book_info" type="button" data-toggle="modal" data-target="#myModal"  class="btn btn-info">修改信息</button></td>
+                    <td style="vertical-align: middle"><strong>${Book.bkID}</strong></td>
+                    <td style="color: darkorange;vertical-align:middle">${Book.bkName}</td>
+                    <td style="vertical-align: middle"><strong>${Book.bkAuthor}</strong></td>
+                    <td style="vertical-align: middle"><strong>${Book.bkPress}</strong></td>
+                    <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
+                    <td style="vertical-align: middle;color:dodgerblue">${Book.bkStatus}</td>
+                    <td style="vertical-align: middle"><button id="modify_book_info" type="button" data-toggle="modal" data-target="#myModal"  class="btn btn-info">修改信息</button></td>
                 </tr>
             </c:forEach>
         </c:if>
@@ -182,8 +182,8 @@
                                 <td class="h5">状态<br><span class="btn-sm btn-outline-danger">必填项</span></td>
                                 <td>
                                     <select name="bkStatus" id="bkStatus"  class="form-control">
-<%--                                        <option style="display: none">请选择</option>--%>
-<%--                                        <option value="在馆">在馆</option>--%>
+                                        <option style="display: none">请选择</option>
+                                        <option value="在馆">在馆</option>
                                         <option value="借出">借出</option>
                                     </select>
                                     <span id="info5"  style="color: red;display: none">值已修改</span>

@@ -85,7 +85,8 @@
                 <td style="vertical-align: middle"><strong>${Book.bkPress}</strong></td>
                 <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
                 <td  style="color:dodgerblue;vertical-align: middle">${Book.bkStatus}</td>
-                <td style="vertical-align: middle"><button class="btn btn-info">查看简介</button></td>
+                <td hidden>${Book.bkResume}</td>
+                <td style="vertical-align: middle"><button data-toggle="modal" data-target="#myModal" id="display_resume" class="btn btn-info">查看简介</button></td>
             </tr>
         </c:forEach>
     </c:if>
@@ -138,6 +139,37 @@
         </nav>
     </div>
 </div>
+<div class="modal fade" id="myModal" data-backdrop=false>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">书籍简介:</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+             <p class="h5" id="bk_resume"></p>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+<script>
+    $(document).click(function (e){
+        if($(e.target).attr('id')==="display_resume"){
+         var bk_resume=$(e.target).parents('tr').children('td').eq(8).text();
+         $("#bk_resume").text(bk_resume);
+        }
+    })
+</script>
 <script>
     $(function (){
         $("#proverb_book").click(function (){

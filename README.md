@@ -3,7 +3,7 @@
 **菜鸡初学javaWeb 写的一个图书管理系统后台**<br>
 #后台页面部分功能展示  
 ####查询书籍
-![Image text](https://github.com/xhy1017/Web_book_management/master/img.png)  
+![Image text](https://github.com/xhy1017/Web_book_management/blob/master/img.png)  
 ####查询读者
 ![2](https://github.com/xhy1017/Web_book_management/master/img2.png)  
 ####删除书籍

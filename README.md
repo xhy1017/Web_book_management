@@ -5,8 +5,8 @@
 
 ## **后台页面部分功能展示**  
 ## 查询书籍
-![1](https://github.com/xhy1017/Web_book_management/blob/master/img.png)  
+![1](https://github.com/xhy1017/Web_book_management/blob/master/display/img.png)  
 ## 查询读者
-![2](https://github.com/xhy1017/Web_book_management/blob/master/img2.png)  
+![2](https://github.com/xhy1017/Web_book_management/blob/master/display/img2.png)  
 ## 删除书籍
-![3](https://github.com/xhy1017/Web_book_management/blob/master/img3.png)
+![3](https://github.com/xhy1017/Web_book_management/blob/master/display/img3.png)

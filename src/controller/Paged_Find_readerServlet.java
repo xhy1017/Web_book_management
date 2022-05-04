@@ -29,6 +29,7 @@ public class Paged_Find_readerServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/json;charset=UTF-8");
         PrintWriter writer = response.getWriter();
+        /*  */
         String rdID = request.getParameter("rdID");
         System.out.println("读者id号:" + rdID);
         String rdName=request.getParameter("rdName");
@@ -51,14 +52,16 @@ public class Paged_Find_readerServlet extends HttpServlet {
         if (request.getParameter("pageSize") == null) {
             String pagesize= request.getSession().getAttribute("PageBean_reader").toString();
             System.out.println(pagesize);
+            //转json对象
             JSONObject jsonObject=JSONObject.parseObject(pagesize);
             System.out.println(jsonObject);
             //拿到域中的pageSize
             pageBean.setPageSize(Integer.parseInt(jsonObject.getString("pageSize")));
         } else {
+            /* 非空即选择了页面大小*/
             pageBean.setPageSize(Integer.parseInt(request.getParameter("pageSize")));
         }
-        //刚开始查询避免数据转换空指针异常，强制设置初始页面为1
+        //刚开始查询避免数据转换空指针异常，强制设置丢到数据库里的初始页面为1，数据库返回如果每页数据会改为0给页面
         if (request.getParameter("currentPage") == null) {
             pageBean.setCurrentPage(1);
         } else {

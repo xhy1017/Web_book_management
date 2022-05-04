@@ -9,6 +9,30 @@ public class Reader {
     private String rdBorrowQty;
     private String rdpassword;
     private String rdTypeName;
+    private String user_Image_URL;
+
+    @Override
+    public String toString() {
+        return "Reader{" +
+                "rdID='" + rdID + '\'' +
+                ", rdType='" + rdType + '\'' +
+                ", rdName='" + rdName + '\'' +
+                ", rdDept='" + rdDept + '\'' +
+                ", rdQQ='" + rdQQ + '\'' +
+                ", rdBorrowQty='" + rdBorrowQty + '\'' +
+                ", rdpassword='" + rdpassword + '\'' +
+                ", rdTypeName='" + rdTypeName + '\'' +
+                ", user_Image_URL='" + user_Image_URL + '\'' +
+                '}';
+    }
+
+    public String getUser_Image_URL() {
+        return user_Image_URL;
+    }
+
+    public void setUser_Image_URL(String user_Image_URL) {
+        this.user_Image_URL = user_Image_URL;
+    }
 
     public String getRdTypeName() {
         return rdTypeName;
@@ -72,17 +96,4 @@ public class Reader {
         this.rdpassword = rdpassword;
     }
 
-    @Override
-    public String toString() {
-        return "Reader{" +
-                "rdID='" + rdID + '\'' +
-                ", rdType='" + rdType + '\'' +
-                ", rdName='" + rdName + '\'' +
-                ", rdDept='" + rdDept + '\'' +
-                ", rdQQ='" + rdQQ + '\'' +
-                ", rdBorrowQty='" + rdBorrowQty + '\'' +
-                ", rdpassword='" + rdpassword + '\'' +
-                ", rdTypeName='" + rdTypeName + '\'' +
-                '}';
-    }
 }

@@ -3,7 +3,6 @@ package Dao;
 import Utils.JDBCUtils;
 import entity.Book;
 import entity.PageBean;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

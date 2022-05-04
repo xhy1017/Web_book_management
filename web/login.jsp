@@ -5,7 +5,7 @@
   Time: 17:03
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +45,7 @@
 <div class="container-fluid">
     <script>
 //js正则表达式对用户名不能有中文验证 --%>
-        function validform() {
+        function verify_form() {
             //定义正则表达匹配rd开头7位数字，且仅匹配0或一次
             const pattern = /^rd\d{7}?$/;
             //定义正则表达式匹配是否有中文
@@ -74,7 +74,7 @@
         }
     </script>
 <%--form必须添加renturn 要不然虽然提示不对,但还是会提交表单--%>
-<form  onsubmit="return validform()" action="${pageContext.request.contextPath}/Login"  method="post" enctype="application/x-www-form-urlencoded">
+<form  onsubmit="return verify_form()" action="${pageContext.request.contextPath}/Login"  method="post" enctype="application/x-www-form-urlencoded">
     <table class="table table-sm table-hover" >
         <tr>
             <th class="text-center h5 " style="size:20px" colspan="2"><strong>用户信息</strong></th>

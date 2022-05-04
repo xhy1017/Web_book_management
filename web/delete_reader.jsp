@@ -178,7 +178,6 @@
     $(function (){
         <c:if test="${not empty sessionScope.PageBean_reader}">
         let curpage =${sessionScope.PageBean_reader.currentPage};
-        </c:if>
         $("#FirstPage").click(function (){
             //考虑到有没有记录，0代表没有结果
             if(curpage===1||curpage===0){
@@ -233,6 +232,7 @@
                 $("#test1").load("delete_reader.jsp");
             },"html")
         })
+        </c:if>
     })
 </script>
 <%--判断是否满足删除条件--%>

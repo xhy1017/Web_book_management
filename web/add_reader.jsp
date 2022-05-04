@@ -7,7 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8"  %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" >
     <title>添加读者</title>
@@ -80,7 +81,7 @@
         </tr>
         <tr>
             <td>姓名:</td>
-            <td><input type="text"class="form-control col-md-3"placeholder="必须是中文" id="rdName" name="rdName"></td>
+            <td><input type="text" class="form-control col-md-3" placeholder="必须是中文" id="rdName" name="rdName"></td>
         </tr>
         <tr>
             <td>所属院系:</td>
@@ -88,7 +89,7 @@
         </tr>
         <tr>
         <td>QQ:</td>
-        <td><input type="number"class="form-control col-md-3" placeholder="不要不填哦"  name="rdQQ"></td>
+        <td><input type="number" class="form-control col-md-3" placeholder="不要不填哦"  name="rdQQ"></td>
         </tr>
         <tr>
             <td><input  type="reset"   class="col-sm-5 btn btn-outline-danger  "  value="重置"></td>

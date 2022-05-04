@@ -206,7 +206,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="h5">上传封面:<br><span class="btn-sm btn-outline-danger">必选项</span></td>
+                                <td class="h5">上传头像:<br><span class="btn-sm btn-outline-danger">必选项</span></td>
                                 <td>
                                     <script>
                                         var getUserPhoto = document.getElementById("input_img");
@@ -261,7 +261,7 @@
     //
     var formdata=new FormData();
     //后来更新的值 用let会被重新声明导致出错 用var声明全局变量
-    var author,name, press,price,status;
+    var borrowQty,name, faculty,qq,typeName;
     //全局变量，获取table里的值
     var rdID, rdName,rdDept,rdType,rdBorrowQty,rdQQ;
     $("#close_modal").click(function (){
@@ -295,7 +295,6 @@
             $("#rdDept").val(rdDept);
             $("#rdBorrowQty").val(rdBorrowQty);
             $("#rdQQ").val(rdQQ);
-            // $("#rdType").val(rdType);
             // console.log($("#rdType") .val())这样写会只拿到第一次的值，第二次点会为空值
            //简洁有效方法应该这样写
            $('#rdType').find('option:contains('+rdType+')').attr('selected',true);
@@ -308,112 +307,110 @@
             // });
         }
     })
-    // //添加input元素监听事件，值发生改变覆盖原来的值
-    // $("#bkName").on("input propertychange",function (){
-    //     name = $(this).val();
-    //     //转为原生dom对象
-    //     if(name!==bkName){
-    //         //显示span标签
-    //         $("#info1")[0].style.display='block';
-    //         //set是覆盖value值不能用append，那个是追加
-    //         formdata.set('bkName',name);
-    //     }
-    //     else {
-    //         $("#info1")[0].style.display='none';
-    //     }
-    // })
-    // $("#bkAuthor").on("input propertychange",function (){
-    //     author= $(this).val();
-    //     //转为原生dom对象
-    //     if(author!==bkAuthor){
-    //         //显示span标签
-    //         $("#info2")[0].style.display='block';
-    //         formdata.set('bkAuthor',author);
-    //     }
-    //     else {
-    //         $("#info2")[0].style.display='none';
-    //     }
-    // })
-    // $("#bkPress").on("input propertychange",function (){
-    //     press= $(this).val();
-    //     //转为原生dom对象
-    //     if(press!==bkPress){
-    //         //显示span标签
-    //         $("#info3")[0].style.display='block';
-    //         formdata.set('bkPress',press);
-    //     }
-    //     else {
-    //         $("#info3")[0].style.display='none';
-    //     }
-    // })
-    // $("#bkPrice").on("input propertychange",function (){
-    //     price = $(this).val();
-    //     //转为原生dom对象
-    //     if(price!==bkPrice){
-    //         //显示span标签
-    //         $("#info4")[0].style.display='block';
-    //         formdata.set('bkPrice',price);
-    //     }
-    //     else {
-    //         $("#info4")[0].style.display='none';
-    //     }
-    // })
-    // $("#bkStatus").on("input propertychange",function (){
-    //     status = $(this).val();
-    //     //转为原生dom对象
-    //     if(status!==bkStatus){
-    //         //显示span标签
-    //         $("#info5")[0].style.display='block';
-    //         formdata.set('bkStatus',status);
-    //     }
-    //     else {
-    //         $("#info5")[0].style.display='none';
-    //     }
-    // })
-    // $("#confirm_modify_reader").click(function (){
-    //     //有选择性的改，不变的东西不去改它
-    //     // const formdata = new FormData($("#modify_reader_form")[0]);
-    //     //[0]原生dorm对象
-    //     //这句可以不需要，无选择性的改，就需要了，其实 formdata 已经封装好了，
-    //     formdata.set("bkID",rdID);
-    //     formdata.set('bkImage',$("#input_img")[0].files[0]);//有则覆盖，无则创建
-    //     //拿到文件名字
-    //     console.log(formdata.get('rdName'))
-    //     console.log(formdata.get('rdDept'))
-    //     console.log(formdata.get('bkPress'))
-    //     console.log(formdata.get('bkID'));
-    //     console.log(formdata.get('bkAuthor'));
-    //     console.log(formdata.get('bkPrice'));
-    //     console.log(formdata.get('bkImage'));
-    //     $.ajax(
-    //         {
-    //             url:"Modify_Reader_Servlet",
-    //             type:'POST',
-    //             data:formdata,
-    //             cache:false,
-    //             contentType:false,
-    //             processData:false,
-    //             success:function (data){
-    //                 console.log(data);
-    //                 $("#Succeed_Modal").modal();
-    //                 setTimeout(function (){
-    //                     $("#Succeed_Modal").modal('hide');
-    //                 },1000)
-    //             }
-    //         }
-    //     )
-    //     document.getElementById("modify_reader_form").reset();
-    //     document.getElementById("show_img").src="";
-    //     //关闭模态框后重新设为不可见状态
-    //     $("#info1")[0].style.display='none';
-    //     $("#info2")[0].style.display='none';
-    //     $("#info3")[0].style.display='none';
-    //     $("#info4")[0].style.display='none';
-    //     $("#info5")[0].style.display='none';
-    //     //图片也不显示
-    //     $("#show_img")[0].style.display='none';
-    //
-    // })
+    //添加input元素监听事件，值发生改变覆盖原来的值
+    $("#rdName").on("input propertychange",function (){
+        name = $(this).val();
+        //转为原生dom对象
+        if(name!==rdName){
+            //显示span标签
+            $("#info1")[0].style.display='block';
+            //set是覆盖value值不能用append，那个是追加
+            formdata.set('rdName',name);
+        }
+        else {
+            $("#info1")[0].style.display='none';
+        }
+    })
+    $("#rdBorrowQty").on("input propertychange",function (){
+        borrowQty= $(this).val();
+        //转为原生dom对象
+        if(borrowQty!==rdBorrowQty){
+            //显示span标签
+            $("#info2")[0].style.display='block';
+            formdata.set('rdBorrowQty',borrowQty);
+        }
+        else {
+            $("#info2")[0].style.display='none';
+        }
+    })
+    $("#rdDept").on("input propertychange",function (){
+        faculty= $(this).val();
+        //转为原生dom对象
+        if(faculty!==rdDept){
+            //显示span标签
+            $("#info3")[0].style.display='block';
+            formdata.set('rdDept',faculty);
+        }
+        else {
+            $("#info3")[0].style.display='none';
+        }
+    })
+    $("#rdQQ").on("input propertychange",function (){
+        qq = $(this).val();
+        //转为原生dom对象
+        if(qq!==rdQQ){
+            //显示span标签
+            $("#info4")[0].style.display='block';
+            formdata.set('rdQQ',qq);
+        }
+        else {
+            $("#info4")[0].style.display='none';
+        }
+    })
+    $("#rdType").on("input propertychange",function (){
+        typeName = $(this).val();
+        //转为原生dom对象
+        if(typeName!==rdType){
+            //显示span标签
+            $("#info5")[0].style.display='block';
+            formdata.set('rdType',typeName);
+        }
+        else {
+            $("#info5")[0].style.display='none';
+        }
+    })
+    $("#confirm_modify_reader").click(function (){
+        //有选择性的改，不变的东西不去改它
+        // const formdata = new FormData($("#modify_reader_form")[0]);
+        //[0]原生dorm对象
+        //这句可以不需要，无选择性的改，就需要了，其实 formdata 已经封装好了，
+        formdata.set("rdID",rdID);
+        formdata.set('user_Image',$("#input_img")[0].files[0]);//有则覆盖，无则创建
+        //拿到文件名字
+        console.log(formdata.get('rdName'))
+        console.log(formdata.get('rdDept'))
+        console.log(formdata.get('rdType'))
+        console.log(formdata.get('rdBorrowQty'));
+        console.log(formdata.get('rdQQ'));
+        console.log(formdata.get('user_Image'));
+        $.ajax(
+            {
+                url:"Modify_Reader_Servlet",
+                type:'POST',
+                data:formdata,
+                cache:false,
+                contentType:false,
+                processData:false,
+                success:function (data){
+                    console.log(data);
+                    $("#Succeed_Modal").modal();
+                    setTimeout(function (){
+                        $("#Succeed_Modal").modal('hide');
+                    },1000)
+                }
+            }
+        )
+        document.getElementById("modify_reader_form").reset();
+        document.getElementById("show_img").src="";
+        //关闭模态框后重新设为不可见状态
+        $("#info1")[0].style.display='none';
+        $("#info2")[0].style.display='none';
+        $("#info3")[0].style.display='none';
+        $("#info4")[0].style.display='none';
+        $("#info5")[0].style.display='none';
+        //图片也不显示
+        $("#show_img")[0].style.display='none';
+    })
 </script>
 <%--分页下一页js--%>
 <script>

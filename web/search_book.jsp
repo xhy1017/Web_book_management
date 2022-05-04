@@ -80,7 +80,8 @@
                 </td>
                 <td><img src="${Book.bkURL}" style="width:120px;height: 150px " alt=""></td>
                 <td style="vertical-align: middle"><strong>${Book.bkID}</strong></td>
-                <td style="color: darkorange;vertical-align: middle">${Book.bkName}</td>
+                <td style="vertical-align: middle;color: dodgerblue"><strong>${Book.bkName}</strong></td>
+<%--                <td style="color: darkorange;vertical-align: middle">${Book.bkName}</td>--%>
                 <td style="vertical-align: middle"><strong>${Book.bkAuthor}</strong></td>
                 <td style="vertical-align: middle"><strong>${Book.bkPress}</strong></td>
                 <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
@@ -155,12 +156,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
             </div>
-
         </div>
     </div>
-</div>
-
-
 </div>
 <script>
     $(document).click(function (e){

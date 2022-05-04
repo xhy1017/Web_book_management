@@ -25,8 +25,8 @@ public class Remove_reader_Servlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
         String[] checkeds = request.getParameterValues("checked");
         System.out.println(Arrays.toString(checkeds));
-        ReaderService bookService=new ReaderService_impl();
-        int i = bookService.Remove_reader(checkeds);
+        ReaderService readerService=new ReaderService_impl();
+        int i = readerService.Remove_reader(checkeds);
         if(i>0){
             writer.println("删除成功");
         }

@@ -39,4 +39,9 @@ public class ReaderService_impl implements ReaderService {
         //调用readerdao_impl实现的方法
         return readerDao.addReader(reader);
     }
+
+    @Override
+    public int Modify_reader(Reader reader) {
+        return readerDao.Modify_reader(reader);
+    }
 }

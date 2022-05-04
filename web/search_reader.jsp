@@ -63,6 +63,8 @@
 <table class="table table-hover ">
     <thead class="thead-light" >
     <tr>
+        <th>编号</th>
+        <th>用户头像</th>
         <th>读者ID</th>
         <th>读者类型</th>
         <th>姓名</th>
@@ -77,8 +79,14 @@
     <c:if test="${not empty PageBean_reader.list}">
         <%--            循环拿到list集合对象--%>
         <%--     从请求域中拿到list属性--%>
-    <c:forEach items="${sessionScope.PageBean_reader.list}" var="Reader" varStatus="s">
+    <c:forEach items="${sessionScope.PageBean_reader.list}" var="Reader" varStatus="S">
     <tr>
+        <td>
+            <label style="margin-bottom:0rem">
+                    ${S.count}
+            </label>
+        </td>
+        <td><img src="${Reader.user_Image_URL}" style="width:100px;height: 100px;border-radius: 50% " alt=""></td>
             <%-- .rdID实际上是getrdiD方法--%>
         <td><strong>${Reader.rdID}</strong></td>
         <td>${Reader.rdTypeName}</td>
@@ -122,8 +130,9 @@
                     </select>
 <%--                    有了更好的方法保持分页大小不变--%>
                     <script>
+                        <c:if test="${not empty PageBean_reader.vague_query.rdType}">
                         $("select:last").find("option[value=${sessionScope.PageBean_reader.pageSize}]").attr("selected",true);
-
+                        </c:if>
                     </script>
                 </td>
                 <td style="vertical-align: bottom;">
@@ -169,7 +178,6 @@
     $(function (){
         <c:if test="${not empty sessionScope.PageBean_reader}">
         let curpage =${sessionScope.PageBean_reader.currentPage};
-        </c:if>
         $("#FirstPage").click(function (){
             //考虑到有没有记录，0代表没有结果
             if(curpage===1||curpage===0){
@@ -224,6 +232,7 @@
                 $("#test1").load("search_reader.jsp");
             },"html")
         })
+        </c:if>
     })
 </script>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>

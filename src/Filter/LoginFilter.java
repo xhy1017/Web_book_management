@@ -34,6 +34,10 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(request,response);
             return;
         }
+        if(URI.contains("User_Images"))
+        {
+            response.setContentType("image/png");
+        }
         //一样的问题，引入外部css、js，设置响应类型，因为这玩意要经过过滤器的，
         if(URI.endsWith(".css")){
             response.setContentType("text/css");

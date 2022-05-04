@@ -8,14 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%--引入jstl核心标签库--%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="to-top.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" >
     <title >添加图书</title>
 </head>
 <body>
-<form  onsubmit="return validateform()" id="bookform" enctype="multipart/form-data" >
+<form  onsubmit="return verify_form()" id="bookform" enctype="multipart/form-data" >
     <table class="table table-hover">
         <tr><td class="text-center" style="font-size: large" colspan="2"><strong>请输入书籍信息</strong></td></tr>
         <tr>
@@ -59,7 +60,7 @@
             <td>
                 <div style="position:relative;padding-bottom:20px">
                     <textarea  onkeyup="rest_words(this,300,'input_words')" placeholder="请输入书籍简介信息" style="resize: none" maxlength="300" rows="5" cols="10" class="form-control col-md-5" id="bkResume" name="bkResume"></textarea>
-                    <span  id="input_words" style="color:#BDCADA;text-align: end ;font-size:12px;position:absolute;height:20px;left:300px;bottom:0;"></span>
+                    <span  id="input_words" style="color:#cc24e6;text-align: end ;font-size:14px;position:absolute;height:20px;left:300px;bottom:0;"></span>
                 </div>
             </td>
             <script>
@@ -105,7 +106,7 @@
 <script src="to-top.js"></script>
 <%--js正则表达式验证--%>
 <script>
-    function validateform()
+    function verify_form()
     {
         const bkID=document.getElementById("bkID").value;
         const bkPrice=document.getElementById("bkPrice").value;
@@ -150,7 +151,7 @@
 <%--发送数据--%>
 <script>
     $("#upbook").click(function (){
-        if(validateform()===true){
+        if(verify_form()===true){
             //必须加个[0]转换为原生dom对象
             var formdata=new FormData($("#bookform")[0]);
             document.getElementById("bookform").reset();
@@ -174,11 +175,10 @@
                 }
             )
         }
-
     })
 </script>
 <%--查询到的读者记录展示--%>
-    <table class="table table-hover ">
+<table class="table table-hover ">
         <thead class="thead-light" >
         <tr>
             <th>书号ID</th>

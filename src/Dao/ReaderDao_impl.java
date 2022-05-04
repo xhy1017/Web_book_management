@@ -1,11 +1,8 @@
 package Dao;
 
-import Dao.ReaderDao;
-import entity.Book;
+import Utils.JDBCUtils;
 import entity.PageBean;
 import entity.Reader;
-import Utils.JDBCUtils;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -106,7 +103,7 @@ public class ReaderDao_impl implements ReaderDao {
                 //执行sql语句
                 ResultSet rs = pst.executeQuery();
                 //新建一个读者对象
-                Reader reader = null;
+                Reader reader;
                 //新建一个list集合
                 List<Reader> list = new ArrayList<>();
                 while (rs.next()) {
@@ -191,7 +188,6 @@ public class ReaderDao_impl implements ReaderDao {
         }
         return null;
     }
-
     @Override
     public PageBean<Reader> Paged_FindReader(PageBean<Reader> pageBean) {
         //放在外面执行有看符合条件的多少条记录
@@ -250,6 +246,7 @@ public class ReaderDao_impl implements ReaderDao {
                 reader.setRdDept(rs.getString("rdDept"));
                 reader.setRdQQ(rs.getString("rdQQ"));
                 reader.setRdBorrowQty(String.valueOf(rs.getInt("rdBorrowQty")));
+                reader.setUser_Image_URL(rs.getString("user_Image_URL"));
                 readerList.add(reader);
             }
             //设置总记录数
@@ -338,6 +335,41 @@ public class ReaderDao_impl implements ReaderDao {
         }
         return 0;
     }
-
+    @Override
+    public int Modify_reader(Reader reader) {
+        try {
+            conn=JDBCUtils.getConnection();
+            String sql="UPDATE reader set";
+            StringBuffer stringBuffer=new StringBuffer(sql);
+            //拼接的时候别忘了单引号
+            if(reader.getRdName()!=null && !"".equals(reader.getRdName())){
+                stringBuffer.append(" rdName='").append(reader.getRdName()).append("',");
+            }
+            if (reader.getRdDept()!=null&&!"".equals(reader.getRdDept())){
+                stringBuffer.append(" rdDept='").append(reader.getRdDept()).append("',");
+            }
+            if(reader.getRdType()!=null&&!"".equals(reader.getRdType())){
+                stringBuffer.append(" rdType='").append(reader.getRdType()).append("',");
+            }
+            if(reader.getRdBorrowQty()!=null&&!"".equals(reader.getRdBorrowQty())){
+                stringBuffer.append(" rdBorrowQty='").append(reader.getRdBorrowQty()).append("',");
+            }
+            if(reader.getRdQQ()!=null&&!"".equals(reader.getRdQQ())){
+                stringBuffer.append(" rdQQ='").append(reader.getRdQQ()).append("',");
+            }
+            //URL不能为空
+            if(reader.getUser_Image_URL()!=null&&!"".equals(reader.getUser_Image_URL())){
+                stringBuffer.append(" user_Image_URL='").append(reader.getUser_Image_URL()).append("'");
+            }
+            stringBuffer.append(" where rdID='").append(reader.getRdID()).append("'");
+            System.out.println(stringBuffer);
+            pst=conn.prepareStatement(stringBuffer.toString());
+            return pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+            
 }
 

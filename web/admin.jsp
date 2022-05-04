@@ -140,11 +140,10 @@
 <%-- 3存放右侧要展示的页面--%>
         <div class="col-lg-10" style="height: auto;background-color: whitesmoke">
             <div class="container-fluid">
-                <h4 style="color: mediumpurple">管理员:&nbsp;${sessionScope.msg.rdName}欢迎登录&nbsp;&nbsp;&nbsp;读者类型:${sessionScope.msg.rdType}&nbsp;</h4>
+                <h4 style="color: mediumpurple">管理员:&nbsp;${sessionScope.msg.rdName}欢迎登录&nbsp;&nbsp;&nbsp;读者类型:${sessionScope.msg.rdTypeName}&nbsp;</h4>
                 <span class="h5" style="color: mediumpurple" id="show_time"> </span>
 <%--设计成一个button  弹出一个模态框提示用户是否确认提交--%>
     <a href="#">退出登录</a>
-
             </div>
             <div id="test1" style="display: block">
                 <!-- 模态框 淡入淡出 -->

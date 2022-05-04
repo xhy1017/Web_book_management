@@ -63,7 +63,7 @@
                     <td>${S.count}</td>
                     <td><img src="${Book.bkURL}" style="width:120px;height: 150px" alt=""></td>
                     <td style="vertical-align: middle"><strong>${Book.bkID}</strong></td>
-                    <td style="color: darkorange;vertical-align:middle">${Book.bkName}</td>
+                    <td style="color: darkorange;vertical-align:middle"><strong>${Book.bkName}</strong></td>
                     <td style="vertical-align: middle"><strong>${Book.bkAuthor}</strong></td>
                     <td style="vertical-align: middle"><strong>${Book.bkPress}</strong></td>
                     <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
@@ -97,7 +97,7 @@
                                 <c:if test="${'10' eq sessionScope.PageBean_book.pageSize}">selected</c:if> >
                             10/页
                         </option>
-                        <option value="15"<c:if test="${'15' eq sessionScope.PageBean_book.pageSize}">selected</c:if> >
+                        <option value="15" <c:if test="${'15' eq sessionScope.PageBean_book.pageSize}">selected</c:if> >
                             15/页
                         </option>
                     </select>
@@ -395,7 +395,6 @@
     $(function (){
         <c:if test="${not empty sessionScope.PageBean_book}">
         let curpage =${sessionScope.PageBean_book.currentPage};
-        </c:if>
         $("#FirstPage").click(function (){
             //考虑到有没有记录，0代表没有结果
             if(curpage===1||curpage===0){
@@ -450,6 +449,7 @@
                 $("#test1").load("modify_book.jsp");
             },"html")
         })
+        </c:if>
     })
 </script>
 </body>

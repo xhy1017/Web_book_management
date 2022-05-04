@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="to-top.css">
@@ -64,12 +65,13 @@
                 <tr>
                     <td id="delete">
                             <%--平行--%>
-                        <label style="margin-bottom:0rem">
+                        <label style="margin-bottom:0rem" >
                             <input type="checkbox" style="width:50px;height:20px" name="checked" value="${Book.bkID}">${S.count}
                         </label>
                     </td>
                     <td><strong>${Book.bkID}</strong></td>
-                    <td style="color: darkorange">${Book.bkName}</td>
+                    <td style="color: cornflowerblue"><strong>${Book.bkName}</strong></td>
+<%--                    <td style="color: darkorange">${Book.bkName}</td>--%>
                     <td><strong>${Book.bkAuthor}</strong></td>
                     <td><strong>${Book.bkPress}</strong></td>
                     <td><strong>${Book.bkPrice}</strong></td>
@@ -152,7 +154,6 @@
     $(function (){
         <c:if test="${not empty sessionScope.PageBean_book}">
         let curpage =${sessionScope.PageBean_book.currentPage};
-        </c:if>
         $("#FirstPage").click(function (){
             //考虑到有没有记录，0代表没有结果
             if(curpage===1||curpage===0){
@@ -207,6 +208,7 @@
                 $("#test1").load("delete_book.jsp");
             },"html")
         })
+        </c:if>
     })
 </script>
 <%--引入bootstrap.js css jquery.js--%>

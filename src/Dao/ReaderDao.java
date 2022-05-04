@@ -13,7 +13,7 @@ public interface ReaderDao {
     PageBean<Reader>  Paged_FindReader(PageBean<Reader> pageBean);
 
     int addReader(Reader reader);
-
+    int Modify_reader(Reader reader);
 
 
 }

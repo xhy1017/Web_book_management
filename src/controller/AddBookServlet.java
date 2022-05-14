@@ -98,7 +98,9 @@ public class AddBookServlet extends HttpServlet {
                 int i = bookService.AddBook(book);
                 if(i>0){
                     writer.println("添加图书成功");
-                    req.getSession().setAttribute("add_book",book);
+                    List<Book> bookList=new ArrayList<>();
+                    bookList.add(book);
+                    req.getSession().setAttribute("add_book",bookList);
                 }
                 else {
                     writer.println("添加失败");
@@ -107,17 +109,7 @@ public class AddBookServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-//            resp.setContentType("text/json;charset=UTF-8");
-//            //创建一个GSON对象
-//            Gson gson=new Gson();
-//            //使得json输出有序存放
-//            JSONObject jsonObject=new JSONObject(new LinkedHashMap<>());
-//            //json数据key一定要与Android端bean类属性名一样否则转化不了为java类对象
-//            jsonObject.put("rdid",book.getBkID());
-//            jsonObject.put("rdpassword",book.getBkName());
-//            String json = gson.toJson(jsonObject);
-//            //字符输出流
-//            writer.println(json);
+
 
     }
 }

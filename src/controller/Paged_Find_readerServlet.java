@@ -27,7 +27,7 @@ public class Paged_Find_readerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/json;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = response.getWriter();
         /*  */
         String rdID = request.getParameter("rdID");

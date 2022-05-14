@@ -68,6 +68,7 @@
                     <td style="vertical-align: middle"><strong>${Book.bkPress}</strong></td>
                     <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
                     <td style="vertical-align: middle;color:dodgerblue">${Book.bkStatus}</td>
+                    <td hidden>${Book.bkResume}</td>
                     <td style="vertical-align: middle"><button id="modify_book_info" type="button" data-toggle="modal" data-target="#myModal"  class="btn btn-info">修改信息</button></td>
                 </tr>
             </c:forEach>
@@ -121,6 +122,7 @@
         </nav>
     </div>
 </div>
+<%--成功模态框--%>
 <div class="modal fade " id="Succeed_Modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -143,10 +145,33 @@
         </div>
     </div>
 </div>
+<%--失败模态框--%>
+<div class="modal fade " id="failed_Modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h5 class="modal-title btn-outline-info">提示信息</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong>修改书籍失败!</strong>
+                </div>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <%--模态框背景不变黑去除遮罩层--%>
 <div class="modal  fade " id="myModal" data-backdrop=false>
     <%--    在这里写大一点的模态框--%>
-    <div class="modal-dialog modal-lg ">
+    <div class="modal-dialog  modal-dialog-scrollable modal-lg ">
         <div class="modal-content ">
             <!-- 模态框头部 -->
             <div class="modal-header">
@@ -208,9 +233,31 @@
                                             };
                                         };
                                     </script>
-                                    <input type="file"  name="bkImage" accept="image/jpeg,image/jpeg,image/png" id="input_img" />
+                                    <input type="file"  name="bkImage" accept="image/jpeg,image/jpg,image/png" id="input_img" />
                                     <img id="show_img"  style="display: none;width: 200px;height: 200px" alt="暂无" src="">
                                 </td>
+                            </tr>
+                            <tr>
+                                <td class="h5">
+                                    修改简介:<br><span class="btn-sm btn-outline-danger">必填项</span>
+                                </td>
+                                <td>
+                                    <div style="position:relative;padding-bottom:20px">
+                                        <textarea  onkeyup="rest_words(this,300,'input_words')" placeholder="请输入书籍简介信息" style="resize: none" maxlength="300" rows="5" cols="10" class="form-control " id="bkResume" name="bkResume"></textarea>
+                                        <span  id="input_words" style="color:#cc24e6;text-align: end ;font-size:14px;position:absolute;height:20px;left:300px;bottom:0;"></span>
+                                    </div>
+                                </td>
+                                <script>
+                                    function rest_words(obj,maxlength,id)
+                                    {
+                                        var num=maxlength-obj.value.length;
+                                        var leng=id;
+                                        if(num<0){
+                                            num=0;
+                                        }
+                                        document.getElementById(leng).innerHTML="剩余"+num+"/300"+"字符";
+                                    }
+                                </script>
                             </tr>
                         </table>
                     </form>
@@ -247,9 +294,9 @@
     //
     var formdata=new FormData();
     //后来更新的值 用let会被重新声明导致出错 用var声明全局变量
-    var author,name, press,price,status;
+    var author,name, press,price,status,resume;
     //全局变量，获取table里的值
-   var bkID, bkName,bkAuthor,bkPress,bkPrice,bkStatus;
+   var bkID, bkName,bkAuthor,bkPress,bkPrice,bkStatus,bkResume;
     $("#close_modal").click(function (){
        //关闭时清空模态框数据 表单数据与图片显示数据
     document.getElementById("modify_book_form").reset();
@@ -275,6 +322,7 @@
            bkPress = data.eq(5).text();
            bkPrice = data.eq(6).text();
            bkStatus = data.eq(7).text();
+           bkResume=data.eq(8).text();
            //赋值给模态框里表单
           $("#bkID").val(bkID);
           $("#bkName").val(bkName);
@@ -282,6 +330,7 @@
           $("#bkPress").val(bkPress);
           $("#bkPrice").val(bkPrice);
           $("#bkStatus").val(bkStatus);
+          $("#bkResume").val(bkResume);
        }
    })
     //添加input元素监听事件，值发生改变覆盖原来的值
@@ -346,13 +395,23 @@
            $("#info5")[0].style.display='none';
        }
    })
+   $("#bkResume").on("input propertychange",function (){
+       resume = $(this).val();
+       //转为原生dom对象
+       if(resume!==bkResume){
+           formdata.set('bkResume',resume);
+       }
+   })
    $("#confirm_modify_book").click(function (){
        //有选择性的改，不变的东西不去改它
        // const formdata = new FormData($("#modify_book_form")[0]);
        //[0]原生dorm对象
        //这句可以不需要，无选择性的改，就需要了，其实 formdata 已经封装好了，
        formdata.set("bkID",bkID);
-       formdata.set('bkImage',$("#input_img")[0].files[0]);//有则覆盖，无则创建
+       //判断是否上传了图片
+       if(document.getElementById("input_img").files.length!==0){
+           formdata.set('bkImage',$("#input_img")[0].files[0]);//有则覆盖，无则创建
+       }
        //拿到文件名字
        console.log(formdata.get('bkName'))
        console.log(formdata.get('bkStatus'))
@@ -369,12 +428,28 @@
                cache:false,
                contentType:false,
                processData:false,
-               success:function (data){
+               success:function(data,status){
                    console.log(data);
-                   $("#Succeed_Modal").modal();
-                   setTimeout(function (){
-                       $("#Succeed_Modal").modal('hide');
-                   },1000)
+                   console.log(status);
+                   //data 是 string 类型
+                   console.log(typeof data)
+                   //servlet用的是println 自动换行了
+                   console.log(data==='修改书籍成功\r\n')
+                   if(data==='修改书籍成功\r\n'){
+                       $("#Succeed_Modal").modal();
+                       setTimeout(function (){
+                           $("#Succeed_Modal").modal('hide');
+                       },1000)
+                   }
+                   else{
+                       $("#failed_Modal").modal();
+                       setTimeout(function (){
+                           $("#failed_Modal").modal('hide');
+                       },1000)
+                   }
+               },
+               error:function (){
+                   alert("请求失败")
                }
            }
        )
@@ -388,6 +463,15 @@
            $("#info5")[0].style.display='none';
            //图片也不显示
        $("#show_img")[0].style.display='none';
+       //刷新当前页面
+       $.post("Paged_Servlet",$("#search_book_form").serialize()+"&currentPage="+${sessionScope.PageBean_book.currentPage},function (data,status){
+           console.log("修改后的"+data);
+           console.log($("#search_book_form").serialize()+"&currentPage="+${sessionScope.PageBean_book.currentPage})
+           console.log(status);
+           setTimeout(function (){
+               $("#test1").load("modify_book.jsp");
+           },2000);
+       },"html")
 
    })
 </script>

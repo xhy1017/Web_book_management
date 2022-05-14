@@ -53,6 +53,44 @@ public class BookDao_impl implements BookDao {
         }
       return i;
     }
+
+    @Override
+    public List<Book> Find_lend_books(String rdID) {
+        try {
+            conn=JDBCUtils.getConnection();
+            String sql="select * from book where bkID in ";
+            StringBuffer stringBuffer=new StringBuffer(sql);
+            stringBuffer.append("( select bkID from borrow  where rdID='").append(rdID).append("')").append(" AND bkStatus='借出'");
+            System.out.println(stringBuffer);
+            pst=conn.prepareStatement(stringBuffer.toString());
+            rs = pst.executeQuery();
+            List<Book> bookList=new ArrayList<>();
+            while (rs.next()){
+           Book book=new Book();
+           book.setBkID(rs.getString("bkID"));
+           book.setBkName(rs.getString("bkName"));
+           book.setBkAuthor(rs.getString("bkAuthor"));
+           book.setBkPress(rs.getString("bkPress"));
+           book.setBkPrice(rs.getString("bkPrice"));
+           book.setBkStatus(rs.getString("bkStatus"));
+           book.setBkURL(rs.getString("bkURL"));
+           book.setBkResume(rs.getString("bkResume"));
+           bookList.add(book);
+            }
+            return bookList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                JDBCUtils.close(rs,pst, conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public int Remove_book(String ID) {
         try {
             conn=JDBCUtils.getConnection();
@@ -72,10 +110,9 @@ public class BookDao_impl implements BookDao {
         }
         return 0;
     }
-
     @Override
     public List<Book> FindAllBook(String bkID) {
-        if (bkID != "") {
+        if (!"".equals(bkID)&&bkID!=null) {
             try { //开始连接
                 conn = JDBCUtils.getConnection();
                 //定义需要的sql语句
@@ -119,18 +156,15 @@ public class BookDao_impl implements BookDao {
             }
             return null;
         }
-
         //输入的读者ID为空值，查询全部读者
         else {
             try {
                 conn = JDBCUtils.getConnection();
                 //定义需要的sql语句
-                String sql = "select *from book";
+                String sql = "select * from book";
                 pst = conn.prepareStatement(sql);
                 //执行sql语句
                 ResultSet rs = pst.executeQuery();
-                //新建一个读者对象
-
                 //新建一个list集合
                 List<Book> list = new ArrayList<>();
                 while (rs.next()) {
@@ -139,9 +173,11 @@ public class BookDao_impl implements BookDao {
                     book.setBkID(rs.getString("bkID"));
                     book.setBkName(rs.getString("bkName"));
                     book.setBkAuthor(rs.getString("bkAuthor"));
-                    book.setBkPrice(rs.getString("bkPress"));
                     book.setBkPrice(rs.getString("bkPrice"));
+                    book.setBkPress(rs.getString("bkPress"));
                     book.setBkStatus(rs.getString("bkStatus"));
+                    book.setBkURL(rs.getString("bkURL"));
+                    book.setBkResume(rs.getString("bkResume"));
                     //赋值给用户对象
                     list.add(book);
                 }
@@ -249,23 +285,32 @@ public class BookDao_impl implements BookDao {
             if(book.getBkName()!=null && !"".equals(book.getBkName())){
              stringBuffer.append(" bkName='").append(book.getBkName()).append("',");
             }
-            if (book.getBkAuthor()!=null&&!"".equals(book.getBkAuthor())){
-                stringBuffer.append(" bkAuthor='").append(book.getBkAuthor()).append("',");
+           if (book.getBkAuthor()!=null&&!"".equals(book.getBkAuthor())){
+                   stringBuffer.append(" bkAuthor='").append(book.getBkAuthor()).append("',");
             }
             if(book.getBkPress()!=null&&!"".equals(book.getBkPress())){
-                stringBuffer.append(" bkPress='").append(book.getBkPress()).append("',");
+                    stringBuffer.append(" bkPress='").append(book.getBkPress()).append("',");
             }
             if(book.getBkPrice()!=null&&!"".equals(book.getBkPrice())){
-                stringBuffer.append(" bkPrice='").append(book.getBkPrice()).append("',");
+                    stringBuffer.append(" bkPrice='").append(book.getBkPrice()).append("',");
+
             }
-            if(book.getBkStatus()!=null&&!"".equals(book.getBkStatus())){
-                stringBuffer.append(" bkStatus='").append(book.getBkStatus()).append("',");
+             if(book.getBkStatus()!=null&&!"".equals(book.getBkStatus())){
+                    stringBuffer.append(" bkStatus='").append(book.getBkStatus()).append("',");
             }
-            //URL不能为空
             if(book.getBkURL()!=null&&!"".equals(book.getBkURL())){
-                stringBuffer.append(" bkURL='").append(book.getBkURL()).append("'");
+                stringBuffer.append(" bkURL='").append(book.getBkURL()).append("',");
             }
-              stringBuffer.append(" where bkID='").append(book.getBkID()).append("'");
+            if (book.getBkResume()!=null&&!"".equals(book.getBkResume())){
+                stringBuffer.append(" bkResume='").append(book.getBkResume()).append("'");
+            }
+             else if(stringBuffer.toString().endsWith(",")){
+                 //删除最后一个字符","
+                 System.out.println("true");
+                 stringBuffer.deleteCharAt(stringBuffer.length()-1);
+            }
+             //最后加上bkid
+            stringBuffer.append(" where bkID='").append(book.getBkID()).append("'");
               System.out.println(stringBuffer);
              pst=conn.prepareStatement(stringBuffer.toString());
              return pst.executeUpdate();

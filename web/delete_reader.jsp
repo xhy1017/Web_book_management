@@ -90,10 +90,10 @@
             <%-- .rdID实际上是getrdiD方法--%>
         <td><strong>${Reader.rdID}</strong></td>
         <td>${Reader.rdTypeName}</td>
-        <td><strong>${Reader.rdName}</strong></td>
-        <td>${Reader.rdDept}</td>
-        <td>${Reader.rdQQ}</td>
-        <td class="text-center">${Reader.rdBorrowQty}</td>
+        <td style="color: cornflowerblue"><strong>${Reader.rdName}</strong></td>
+        <td><strong>${Reader.rdDept}</strong></td>
+        <td><strong>${Reader.rdQQ}</strong></td>
+        <td class="text-center"><strong>${Reader.rdBorrowQty}</strong></td>
         <td><button id="single_delete" type="button" class=" btn btn-outline-danger">删除选中</button></td>
     <tr>
         </c:forEach>

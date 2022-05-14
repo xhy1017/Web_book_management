@@ -1,6 +1,7 @@
 package Dao;
 
 import Utils.JDBCUtils;
+import entity.Borrow;
 import entity.PageBean;
 import entity.Reader;
 import java.sql.Connection;
@@ -269,6 +270,62 @@ public class ReaderDao_impl implements ReaderDao {
         }
         return null;
     }
+
+    @Override
+    public int Return_book(String rdID, String DateLendAct) {
+        try {
+            conn=JDBCUtils.getConnection();
+            StringBuffer stringBuffer=new StringBuffer( "UPDATE borrow set DateLendAct='");
+            stringBuffer.append(DateLendAct).append("'").append(" where rdID='").append(rdID).append("'");
+            System.out.println(stringBuffer);
+           pst=conn.prepareStatement(stringBuffer.toString());
+            return  pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                JDBCUtils.close(pst,conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    JDBCUtils.close(pst,conn);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return 0;
+    }
+    @Override
+    public int Borrow_book(Borrow borrow) {
+        try {
+            conn=JDBCUtils.getConnection();
+            //防止重复插入报错,rdID-bkID replace 也可以ignore
+            String sql="REPLACE INTO borrow values(?,?,?,?,null)";
+            pst=conn.prepareStatement(sql);
+            pst.setString(1, borrow.getRdID());
+            pst.setString(2, borrow.getBkID());
+            pst.setString(3, borrow.getDateBorrow());
+            pst.setString(4, borrow.getDateLendPlan());
+            System.out.println(pst.toString());
+            return pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                JDBCUtils.close(pst,conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    return 0;
+    }
+
     public int CountTotalRecord(PageBean<Reader> pageBean){
         try {
             conn=JDBCUtils.getConnection();
@@ -311,18 +368,18 @@ public class ReaderDao_impl implements ReaderDao {
         return 0;
     }
     @Override
-    public int addReader(Reader reader) {
+    public int AddReader(Reader reader) {
         try {
             conn= JDBCUtils.getConnection();
-            String sql = "INSERT INTO reader values(?,?,?,?,?,0,123456)";
+            String sql = "INSERT INTO reader values(?,?,?,?,?,0,123456,?)";
             pst=conn.prepareStatement(sql);
             pst.setString(1,reader.getRdID());
             pst.setString(2,reader.getRdType());
             pst.setString(3,reader.getRdName());
             pst.setString(4,reader.getRdDept());
             pst.setString(5,reader.getRdQQ());
+            pst.setString(6,reader.getUser_Image_URL());
             return pst.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -361,12 +418,24 @@ public class ReaderDao_impl implements ReaderDao {
             if(reader.getUser_Image_URL()!=null&&!"".equals(reader.getUser_Image_URL())){
                 stringBuffer.append(" user_Image_URL='").append(reader.getUser_Image_URL()).append("'");
             }
+            else if(stringBuffer.toString().endsWith(",")){
+                //删除最后一个字符","
+                System.out.println("true");
+                stringBuffer.deleteCharAt(stringBuffer.length()-1);
+            }
             stringBuffer.append(" where rdID='").append(reader.getRdID()).append("'");
             System.out.println(stringBuffer);
             pst=conn.prepareStatement(stringBuffer.toString());
             return pst.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                JDBCUtils.close(pst,conn);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return 0;
     }

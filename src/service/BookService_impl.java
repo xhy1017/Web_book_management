@@ -35,4 +35,9 @@ public class BookService_impl implements BookService {
     public int Modify_book(Book book) {
         return bookDao.Modify_book(book);
     }
+
+    @Override
+    public List<Book> Find_lend_books(String rdID) {
+        return bookDao.Find_lend_books(rdID);
+    }
 }

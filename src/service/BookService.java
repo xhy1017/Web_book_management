@@ -11,4 +11,6 @@ public interface BookService {
     List<Book> FindAllBook(String bkID);
     PageBean<Book> Paged_findbook( PageBean<Book> pageBean);
     int  Modify_book(Book book);
+    List<Book> Find_lend_books(String rdID);
+
 }

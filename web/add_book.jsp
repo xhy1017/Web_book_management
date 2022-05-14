@@ -17,27 +17,27 @@
 </head>
 <body>
 <form  onsubmit="return verify_form()" id="bookform" enctype="multipart/form-data" >
-    <table class="table table-hover">
+    <table class="table table-hover table-borderless">
         <tr><td class="text-center" style="font-size: large" colspan="2"><strong>请输入书籍信息</strong></td></tr>
         <tr>
             <td>书号:</td>
-            <td><input type="text" class="form-control col-md-3" placeholder="bk开头且数字长度位7位" id="bkID" name="bkID"></td>
+            <td><input type="text" class="form-control col-md-3" placeholder="bk开头且数字长度位7位" id="bkID" name="bkID" style="display: inline"><span style="color: red;display: none">书号输入不合法,请重新输入</span></td>
         </tr>
         <tr>
             <td>书名:</td>
-            <td><input type="text" class="form-control col-md-3" placeholder="不能不填哦" id="bkName" name="bkName"></td>
+            <td><input type="text" class="form-control col-md-3" placeholder="不能不填哦" id="bkName" name="bkName" style="display: inline"><span style="color: red;display: none">书名都不填的吗?</span></td>
         </tr>
         <tr>
             <td>作者:</td>
-            <td><input type="text" class="form-control col-md-3" placeholder="同上"  id="bkAuthor" name="bkAuthor"></td>
+            <td><input type="text" class="form-control col-md-3" placeholder="同上"  id="bkAuthor" name="bkAuthor" style="display: inline"><span style="color: red;display: none">作者也不填吗?</span></td>
         </tr>
         <tr>
             <td>出版社:</td>
-            <td><input type="text" class="form-control col-md-3" placeholder="只能是中文呢" id="bkPress" name="bkPress"></td>
+            <td><input type="text" class="form-control col-md-3" placeholder="只能是中文呢" id="bkPress" name="bkPress" style="display: inline"><span style="color: red;display: none">为什么不填啊?</span></td>
         </tr>
         <tr>
             <td>价格:</td>
-            <td><input type="number" placeholder="不可为负数" class="form-control col-md-3" id="bkPrice" name="bkPrice"></td>
+            <td><input type="number" placeholder="不可为负数" class="form-control col-md-3" id="bkPrice" name="bkPrice" style="display: inline"><span style="color: red;display: none">价格不能有负号</span></td>
         </tr>
         <tr>
             <td>是否借出:</td>
@@ -50,7 +50,7 @@
         </tr>
         <tr>
             <td>上传封面:</td>
-            <td><input type="file" name="bkImage" accept="image/jpeg,image/jpeg,image/png" id="add_image">
+            <td><input type="file" name="bkImage" accept="image/jpeg,image/jpg,image/png" id="add_image">
                 <img id="show_img"  style="display: none;width: 200px;height: 200px" alt="暂无" src=""></td>
         </tr>
         <tr>
@@ -120,29 +120,64 @@
         // //非负的浮点数验证
         var reg2=/^\d+(\.\d+)?$/;
         if(patterns.test(bkID)===false){
-            alert("书号输入不合法\n请重新输入");
+            // alert("书号输入不合法\n请重新输入");
             document.getElementById("bkID").style.borderColor="#ea0404";
+            document.getElementsByTagName("span")[1].style.display='inline-block';
+            setTimeout(function (){
+                document.getElementsByTagName("span")[1].style.display='none';
+                document.getElementById("bkID").style.borderColor="#beb4b4";
+            },1500)
             return false;
         }
         if(""===bkName){
-            alert("书名都不填的吗?");
-            document.getElementById("bkID").style.borderColor="#ea0404";
+            // alert("书名都不填的吗?");
+            document.getElementById("bkName").style.borderColor="#ea0404";
+            document.getElementsByTagName("span")[2].style.display='inline-block';
+            setTimeout(function (){
+                document.getElementsByTagName("span")[2].style.display='none';
+                document.getElementById("bkName").style.borderColor="#beb4b4";
+            },1000)
             return false;
         }
         if(""===bkAuthor){
-            alert("出版社也不填吗/");
-            document.getElementById("bkID").style.borderColor="#ea0404";
+            // alert("作者也不填吗?");
+            document.getElementById("bkAuthor").style.borderColor="#ea0404";
+            document.getElementsByTagName("span")[3].style.display='inline-block';
+            setTimeout(function (){
+                document.getElementsByTagName("span")[3].style.display='none';
+                document.getElementById("bkAuthor").style.borderColor="#beb4b4";
+            },1500)
+            return false;
+        }
+        if(""===bkPress){
+            document.getElementById("bkPress").style.borderColor="#ea0404";
+            document.getElementsByTagName("span")[4].style.display='inline-block';
+            setTimeout(function (){
+                document.getElementsByTagName("span")[4].style.display='none';
+                document.getElementById("bkPress").style.borderColor="#beb4b4";
+            },1000)
             return false;
         }
         if(reg.test(bkPress)===false){
-            alert("出版社输入必须是中文");
+            // alert("出版社输入必须是中文");
             document.getElementById("bkPress").style.borderColor="#ea0404";
+            document.getElementsByTagName("span")[4].innerHTML="出版社必须是中文";
+            document.getElementsByTagName("span")[4].style.display='inline-block';
+            setTimeout(function (){
+                document.getElementsByTagName("span")[4].style.display='none';
+                document.getElementById("bkPress").style.borderColor="#beb4b4";
+            },1500)
             return false;
         }
         //匹配的是不包含-9的
         if (reg2.test(bkPrice)===false){
-            alert("价格不能有负号");
+            // alert("价格不能有负号");
             document.getElementById("bkPrice").style.borderColor="#ea0404";
+            document.getElementsByTagName("span")[5].style.display='inline-block';
+            setTimeout(function (){
+                document.getElementsByTagName("span")[5].style.display='none';
+                document.getElementById("bkPrice").style.borderColor="#beb4b4";
+            },1500)
             return false;
         }
         return true;
@@ -151,7 +186,14 @@
 <%--发送数据--%>
 <script>
     $("#upbook").click(function (){
+        // console.log($("#add_image")[0].files[0]);使用经典 DOM 选择器访问第一个选定的文件
+        //HTML <form> 元素 — 指定后，FormData 对象将使用每个元素的 name 属性及其提交的值值填充窗体的当前键/值。它还将对文件输入内容进行编码。
         if(verify_form()===true){
+            if($("#add_image")[0].files.length===0)
+            {
+                alert("请添加图片!")
+                return;
+            }
             //必须加个[0]转换为原生dom对象
             var formdata=new FormData($("#bookform")[0]);
             document.getElementById("bookform").reset();
@@ -171,6 +213,7 @@
                         $("#bookform")[0].reset();
                         $("#show_img")[0].src="";
                         document.getElementById("show_img").style.display='none';
+                        $("#test1").load("add_book.jsp");
                     }
                 }
             )
@@ -192,17 +235,17 @@
         </thead>
         <tbody>
 <%--查询的结果集list在servlet中被保存到域中--%>
-        <c:if test="${not empty add_book}">
+        <c:if test="${not empty sessionScope.add_book}">
 <%--            循环拿到list集合对象--%>
             <c:forEach items="${sessionScope.add_book}" var="Book" varStatus="s">
                 <tr>
 <%-- .rdID实际上是getrdiD方法--%>
-                    <td>${Book.bkID}</td>
-                    <td>${Book.bkName}</td>
-                    <td>${Book.bkAuthor}</td>
-                    <td>${Book.bkPress}</td>
-                    <td>${Book.bkPrice}</td>
-                    <td>${Book.bkStatus}</td>
+                    <td><strong>${Book.bkID}</strong></td>
+                    <td><strong>${Book.bkName}</strong></td>
+                    <td><strong>${Book.bkAuthor}</strong></td>
+                    <td><strong>${Book.bkPress}</strong></td>
+                    <td><strong>${Book.bkPrice}</strong></td>
+                    <td><strong>${Book.bkStatus}</strong></td>
                     <td><a href="#">删除选中</a></td>
                 </tr>
                 </c:forEach>

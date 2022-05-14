@@ -60,6 +60,8 @@
 <table class="table table-hover ">
     <thead class="thead-light" >
     <tr>
+        <th>编号</th>
+        <th>读者头像</th>
         <th>读者ID</th>
         <th>读者类型</th>
         <th>姓名</th>
@@ -74,16 +76,31 @@
     <c:if test="${not empty PageBean_reader.list}">
         <%--            循环拿到list集合对象--%>
         <%--     从请求域中拿到list属性--%>
-    <c:forEach items="${sessionScope.PageBean_reader.list}" var="Reader" varStatus="s">
+    <c:forEach items="${sessionScope.PageBean_reader.list}" var="Reader" varStatus="S">
     <tr>
+        <td>
+            <label style="margin-bottom:0rem">
+                    ${S.count}
+            </label>
+        </td>
+        <style>
+            img{
+                transition: all 0.5s; /*transition:过度属性*/
+                cursor: pointer;  /*当鼠标进入图片的时候，鼠标的样式变为手型 */
+            }
+            img:hover{
+                transform: scale(1.2); /*transform:变形属性，scale：缩放1.1倍 */
+            }
+        </style>
+        <td><img src="${Reader.user_Image_URL}" style="width:100px;height: 100px;border-radius: 50% " alt=""></td>
             <%-- .rdID实际上是getrdiD方法--%>
-        <td><strong>${Reader.rdID}</strong></td>
-        <td>${Reader.rdTypeName}</td>
-        <td><strong>${Reader.rdName}</strong></td>
-        <td>${Reader.rdDept}</td>
-        <td>${Reader.rdQQ}</td>
-        <td>${Reader.rdBorrowQty}</td>
-        <td><button id="modify_reader_info" type="button" data-toggle="modal" data-target="#myModal"  class="btn btn-info">修改信息</button></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdID}</strong></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdTypeName}</strong></td>
+        <td style="vertical-align: middle;color: darkorange"><strong>${Reader.rdName}</strong></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdDept}</strong></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdQQ}</strong></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdBorrowQty}</strong></td>
+        <td style="vertical-align: middle"><button id="modify_reader_info" type="button" data-toggle="modal" data-target="#myModal"  class="btn btn-info">修改信息</button></td>
     </tr>
         </c:forEach>
         </c:if>
@@ -135,6 +152,7 @@
         </nav>
     </div>
 </div>
+<%--成功模态框--%>
 <div class="modal fade " id="Succeed_Modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -157,9 +175,33 @@
         </div>
     </div>
 </div>
+<%--失败模态框--%>
+<div class="modal fade " id="failed_Modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h5 class="modal-title btn-outline-info">提示信息</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong>修改读者失败!</strong>
+                </div>
+            </div>
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<%--修改数据模态框--%>
 <div class="modal  fade " id="myModal" data-backdrop=false>
     <%--    在这里写大一点的模态框--%>
-    <div class="modal-dialog modal-lg ">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg ">
         <div class="modal-content ">
             <!-- 模态框头部 -->
             <div class="modal-header">
@@ -224,7 +266,7 @@
                                             };
                                         };
                                     </script>
-                                    <input type="file"  name="bkImage" accept="image/jpeg,image/jpeg,image/png" id="input_img" />
+                                    <input type="file"  name="rdImage" accept="image/jpeg,image/jpg,image/png" id="input_img" />
                                     <img id="show_img"  style="display: none;width: 200px;height: 200px" alt="暂无" src="">
                                 </td>
                             </tr>
@@ -283,12 +325,12 @@
             //找当前行的父元素tr标签的子节点td标签
             //获取table文本内容
             const data = $(e.target).parents('tr').children('td');
-            rdID = data.eq(0).text();
-            rdType = data.eq(1).text();
-            rdName = data.eq(2).text();
-            rdDept = data.eq(3).text();
-            rdQQ= data.eq(4).text();
-            rdBorrowQty = data.eq(5).text();
+            rdID = data.eq(2).text();
+            rdType = data.eq(3).text();
+            rdName = data.eq(4).text();
+            rdDept = data.eq(5).text();
+            rdQQ= data.eq(6).text();
+            rdBorrowQty = data.eq(7).text();
             //赋值给模态框里表单
             $("#rdID").val(rdID);
             $("#rdName").val(rdName);
@@ -375,8 +417,11 @@
         //[0]原生dorm对象
         //这句可以不需要，无选择性的改，就需要了，其实 formdata 已经封装好了，
         formdata.set("rdID",rdID);
-        formdata.set('user_Image',$("#input_img")[0].files[0]);//有则覆盖，无则创建
-        //拿到文件名字
+        if(document.getElementById("input_img").files.length!==0)
+        {
+            formdata.set('user_Image',$("#input_img")[0].files[0]);//有则覆盖，无则创建
+            //拿到文件名字
+        }
         console.log(formdata.get('rdName'))
         console.log(formdata.get('rdDept'))
         console.log(formdata.get('rdType'))
@@ -391,12 +436,24 @@
                 cache:false,
                 contentType:false,
                 processData:false,
-                success:function (data){
+                success:function (data,status){
                     console.log(data);
-                    $("#Succeed_Modal").modal();
-                    setTimeout(function (){
-                        $("#Succeed_Modal").modal('hide');
-                    },1000)
+                    console.log(status);
+                    if(data==="修改读者成功\r\n"){
+                        $("#Succeed_Modal").modal();
+                        setTimeout(function (){
+                            $("#Succeed_Modal").modal('hide');
+                        },1000);
+                    }
+                    else {
+                        $("#failed_Modal").modal();
+                        setTimeout(function (){
+                            $("#failed_Modal").modal('hide');
+                        },1000)
+                    }
+                },
+                error:function (){
+                    alert("请求失败!");
                 }
             }
         )
@@ -410,6 +467,15 @@
         $("#info5")[0].style.display='none';
         //图片也不显示
         $("#show_img")[0].style.display='none';
+        //刷新当前页面
+        $.post("Find_readerServlet",$("#search_reader_form").serialize()+"&currentPage="+${sessionScope.PageBean_reader.currentPage},function (data,status){
+            console.log("修改后的"+data);
+            console.log($("#search_reader_form").serialize()+"&currentPage="+${sessionScope.PageBean_reader.currentPage})
+            console.log(status);
+            setTimeout(function (){
+                $("#test1").load("modify_reader.jsp");
+            },2000);
+        },"html")
     })
 </script>
 <%--分页下一页js--%>

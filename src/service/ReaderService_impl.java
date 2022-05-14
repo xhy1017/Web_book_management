@@ -2,6 +2,7 @@ package service;
 
 import Dao.ReaderDao;
 import Dao.ReaderDao_impl;
+import entity.Borrow;
 import entity.PageBean;
 import entity.Reader;
 
@@ -35,13 +36,23 @@ public class ReaderService_impl implements ReaderService {
     }
 
     @Override
-    public int addReader(Reader reader) {
+    public int AddReader(Reader reader) {
         //调用readerdao_impl实现的方法
-        return readerDao.addReader(reader);
+        return readerDao.AddReader(reader);
     }
 
     @Override
     public int Modify_reader(Reader reader) {
         return readerDao.Modify_reader(reader);
+    }
+
+    @Override
+    public int Return_book(String rdID, String DateLendAct) {
+        return readerDao.Return_book(rdID,DateLendAct);
+    }
+
+    @Override
+    public int Borrow_book(Borrow borrow) {
+        return readerDao.Borrow_book(borrow);
     }
 }

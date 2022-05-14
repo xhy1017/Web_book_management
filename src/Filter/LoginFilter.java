@@ -2,6 +2,7 @@ package Filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,7 +12,6 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
     }
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
        //强制类型转换
@@ -37,6 +37,8 @@ public class LoginFilter implements Filter {
         if(URI.contains("User_Images"))
         {
             response.setContentType("image/png");
+            filterChain.doFilter(request,response);
+            return;
         }
         //一样的问题，引入外部css、js，设置响应类型，因为这玩意要经过过滤器的，
         if(URI.endsWith(".css")){
@@ -49,14 +51,23 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(request,response);
             return;
         }
+        if(URI.contains(".jpg")||URI.contains("jpeg")){
+            response.setContentType("image/jpg");
+            filterChain.doFilter(request,response);
+            return;
+        }
         //按了登录，此操作不拦截
         if(URI.endsWith("/Login")){
             filterChain.doFilter(request,response);
             return;
         }
         //登录成功不拦截在登录成功之后判断session不为空 ;所有当前链接都不会被拦截
-        if(request.getSession().getAttribute("msg")!=null)
+        if(request.getSession().getAttribute("msg")!=null||!request.getSession().isNew())
         {
+            for (Cookie cookie : request.getCookies()) {
+                System.out.println(cookie.getName());
+                System.out.println(cookie.getValue());
+            }
             filterChain.doFilter(request,response);
             return;
         }

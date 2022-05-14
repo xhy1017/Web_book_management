@@ -1,5 +1,6 @@
 package service;
 
+import entity.Borrow;
 import entity.PageBean;
 import entity.Reader;
 
@@ -13,6 +14,8 @@ public interface ReaderService {
     List<Reader> FindAllReader(String rdID);
     PageBean<Reader> Paged_FindReader(PageBean<Reader> pageBean);
     //??????
-    int addReader(Reader reader);
+    int AddReader(Reader reader);
     int Modify_reader(Reader reader);
+    int Return_book(String rdID,String DateLendAct);
+    int Borrow_book(Borrow borrow);
 }

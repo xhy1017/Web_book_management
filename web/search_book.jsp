@@ -79,15 +79,32 @@
                     </label>
                 </td>
                 <td><img src="${Book.bkURL}" style="width:120px;height: 150px " alt=""></td>
+                <style>
+                    img{
+                        transition: all 0.5s; /*transition:过度属性*/
+                        cursor: pointer;  /*当鼠标进入图片的时候，鼠标的样式变为手型 */
+                    }
+                    img:hover{
+                        transform: scale(1.2); /*transform:变形属性，scale：缩放1.1倍 */
+                    }
+                </style>
                 <td style="vertical-align: middle"><strong>${Book.bkID}</strong></td>
                 <td style="vertical-align: middle;color: dodgerblue"><strong>${Book.bkName}</strong></td>
 <%--                <td style="color: darkorange;vertical-align: middle">${Book.bkName}</td>--%>
                 <td style="vertical-align: middle"><strong>${Book.bkAuthor}</strong></td>
                 <td style="vertical-align: middle"><strong>${Book.bkPress}</strong></td>
                 <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
-                <td  style="color:dodgerblue;vertical-align: middle">${Book.bkStatus}</td>
+                <td style="vertical-align: middle;color:dodgerblue"><strong>${Book.bkStatus}</strong></td>
                 <td hidden>${Book.bkResume}</td>
-                <td style="vertical-align: middle"><button data-toggle="modal" data-target="#myModal" id="display_resume" class="btn btn-info">查看简介</button></td>
+                <td style="vertical-align: middle"><button data-toggle="modal"  data-target="#myModal" id="display_resume" class="btn btn-info">查看简介</button></td>
+                <style>
+                    button{
+                        transition: all 0.5s linear;
+                    }
+                   button:hover{
+                        transform:scale(1.1);
+                    }
+                </style>
             </tr>
         </c:forEach>
     </c:if>

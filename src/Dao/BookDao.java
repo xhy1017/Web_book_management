@@ -10,6 +10,7 @@ public interface BookDao {
     int AddBook(Book book);
     //批量删除书籍
     int Remove_book(String... bkIDs);
+    List<Book> Find_lend_books(String rdID);
     //查询所有书籍
     List<Book> FindAllBook(String bkID);
     //分页的模糊查询

@@ -12,7 +12,6 @@
 <head>
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" >
     <title>添加读者</title>
-<%--    也可以不用每次写一个jsp直接jsp嵌套表单--%>
 </head>
 <body>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
@@ -48,20 +47,43 @@
 <script>
     $(function (){
         $("#upreader").click(function ()
-        { if(valid_reader_form()===true){
-            //   #一定别忘了要不然序列化不成功
-            $.post("AddReaderServlet",$("#readerform").serialize(),function (data,status){
-                console.log(data);
-                alert(data);//弹框提示
-                console.log(status);//成功是200
-                //添加成功之后重新异步加载一下div元素内容，就可以拿到session中用户添加的值
-                $("#test1").load("add_reader.jsp");
-            },"html");
-        }
+        {
+            if(valid_reader_form()===true){
+                if($("#upload_reader_picture")[0].files.length===0)
+                {
+                    alert("请添加图片!")
+                    return;
+                }
+                //必须加个[0]转换为原生dom对象
+                var formdata=new FormData($("#readerform")[0]);
+                document.getElementById("readerform").reset();
+                $("#show_img")[0].src="";
+                document.getElementById("show_img").style.display='none';
+                $.ajax(
+                    {
+                        url:"AddReaderServlet",
+                        type:'POST',
+                        data:formdata,
+                        cache:false,//禁用缓存
+                        //对于上传文件contentType = multipart/form-data作为请求头是必须的，而普通的 post 请求头是 application/x-www-form-urlencoded.所以如果没有设置成 false,是不能用来传输文件的
+                        contentType:false,//F12打开请求头内容发现在 multipart/form-data 后面有boundary以及一串字符，这是分界符，后面的一堆字符串是随机生成的，目的是防止上传文件中出现分界符导致服务器无法正确识别文件起始位置。multipart/form-data 请求是基于 http 原有的请求方式 post 而来的。
+                        //在 ajax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件。
+                        processData:false,//不去处理数据、如果 processData 为 true,会被处理并转换为 query string
+                        success:function (data){
+                            console.log(data);
+                            alert(data);
+                            $("#readerform")[0].reset();
+                            $("#show_img")[0].src="";
+                            document.getElementById("show_img").style.display='none';
+                            $("#test1").load("add_reader.jsp");
+                        }
+                    }
+                )
+            }
     });
     })
 </script>
-<form onsubmit="return valid_reader_form()" id="readerform" enctype="application/x-www-form-urlencoded">
+<form onsubmit="return valid_reader_form()" id="readerform" enctype="multipart/form-data">
     <table class="table table-hover">
         <tr>
             <td>读者id:</td>
@@ -92,6 +114,29 @@
         <td><input type="number" class="form-control col-md-3" placeholder="不要不填哦"  name="rdQQ"></td>
         </tr>
         <tr>
+        <td>上传头像:</td>
+       <td>
+           <input type="file" name="rd_portraits" accept="image/jpeg,image/jpg,image/png" id="upload_reader_picture">
+           <img id="show_img"  style="display: none;width: 100px;height: 100px;border-radius: 50%" alt="好看吗" src="">
+       </td>
+            <script>
+                var getUserPhoto = document.getElementById("upload_reader_picture");
+                getUserPhoto.onchange = function ()
+                {
+                    var file = this.files;
+                    console.log(file);
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file[0]);
+                    reader.onload = function ()
+                    {
+                        var image = document.getElementById("show_img");
+                        image.style.display='block'
+                        image.src = reader.result;
+                    };
+                };
+            </script>
+        </tr>
+        <tr>
             <td><input  type="reset"   class="col-sm-5 btn btn-outline-danger  "  value="重置"></td>
             <td><input id="upreader" type="button" class="col-sm-2 btn btn-outline-info  "  value="注册读者"></td>
         </tr>
@@ -111,24 +156,29 @@
     </thead>
      <tbody>
      <%--查询的结果集list在servlet中被保存到域中--%>
-     <c:if test="${not empty reader_list}">
-         <%--            循环拿到list集合对象--%>
-<%--     从session域中拿到reader_list属性--%>
-     <c:forEach items="${sessionScope.reader_list}" var="reader" varStatus="s">
+     <c:if test="${not empty sessionScope.add_reader}">
+<%--     从session域中拿到add_reader属性--%>
+     <c:forEach items="${sessionScope.add_reader}" var="reader" varStatus="s">
      <tr>
              <%-- .rdID实际上是getrdiD方法--%>
-         <td>${reader.rdID}</td>
-         <td>${reader.rdType}</td>
-         <td>${reader.rdName}</td>
-         <td>${reader.rdDept}</td>
-         <td>${reader.rdQQ}</td>
-         <td>${reader.rdBorrowQty}</td>
-         <td><a href="#">删除选中</a></td>
+         <td><strong>${reader.rdID}</strong></td>
+         <td><strong>${reader.rdType}</strong></td>
+         <td><strong>${reader.rdName}</strong></td>
+         <td><strong>${reader.rdDept}</strong></td>
+         <td><strong>${reader.rdQQ}</strong></td>
+         <td style="text-align:left"><strong>0本</strong></td>
+                 <td>
+                     <button type="button" class="btn btn-info" id="watch_pwd">查看密码</button>
+                 </td>
+     <script>
+        $("#watch_pwd").click(function (){
+            console.log($(this).val());
+             $(this).text("默认密码:123456");
+         })
+     </script>
      <tr>
      </c:forEach>
-
      </c:if>
-
      </tbody>
 </table>
 </body>

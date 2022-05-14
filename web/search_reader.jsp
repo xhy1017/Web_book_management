@@ -60,7 +60,7 @@
     </form>
 </div>
 <%--展示数据--%>
-<table class="table table-hover ">
+<table class="table table-hover table-borderless ">
     <thead class="thead-light" >
     <tr>
         <th>编号</th>
@@ -86,15 +86,24 @@
                     ${S.count}
             </label>
         </td>
+        <style>
+            img{
+                transition: all 0.5s; /*transition:过度属性*/
+                cursor: pointer;  /*当鼠标进入图片的时候，鼠标的样式变为手型 */
+            }
+            img:hover{
+                transform: scale(1.2); /*transform:变形属性，scale：缩放1.1倍 */
+            }
+        </style>
         <td><img src="${Reader.user_Image_URL}" style="width:100px;height: 100px;border-radius: 50% " alt=""></td>
             <%-- .rdID实际上是getrdiD方法--%>
-        <td><strong>${Reader.rdID}</strong></td>
-        <td>${Reader.rdTypeName}</td>
-        <td><strong>${Reader.rdName}</strong></td>
-        <td>${Reader.rdDept}</td>
-        <td>${Reader.rdQQ}</td>
-        <td class="text-center">${Reader.rdBorrowQty}</td>
-        <td><button type="button" class="btn btn-info">查看密码</button></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdID}</strong></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdTypeName}</strong></td>
+        <td style="vertical-align: middle;color: dodgerblue"><strong>${Reader.rdName}</strong></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdDept}</strong></td>
+        <td style="vertical-align: middle"><strong>${Reader.rdQQ}</strong></td>
+        <td style="vertical-align: middle" class="text-center"><strong>${Reader.rdBorrowQty}</strong></td>
+        <td style="vertical-align: middle"><button type="button" class="btn btn-info">查看密码</button></td>
     <tr>
         </c:forEach>
         </c:if>

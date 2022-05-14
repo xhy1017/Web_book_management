@@ -59,7 +59,14 @@ public class Modify_Book_Servlet extends HttpServlet {
                             case "bkPress"-> book.setBkPress(fileItem.getString("UTF-8"));
                             case "bkPrice"->book.setBkPrice(fileItem.getString("UTF-8"));
                             case "bkStatus"->book.setBkStatus(fileItem.getString("UTF-8"));
-                            default -> throw new IllegalStateException("Unexpected value: " + fieldName);
+                            case "bkResume"-> {
+                                System.out.println(fileItem.getString("UTF-8"));
+                                book.setBkResume(fileItem.getString("UTF-8"));
+                            }
+                            default -> {
+                                writer.println("请上传图片!");
+                                throw new IllegalStateException("Unexpected value: " + fieldName);
+                            }
                         }
                     }
                     else {
@@ -90,11 +97,12 @@ public class Modify_Book_Servlet extends HttpServlet {
                 }
                 BookService bookService = new BookService_impl();
                 int i = bookService.Modify_book(book);
+                System.out.println("返回值"+i);
                 if(i>0){
-                    writer.println("修改成功");
+                    writer.println("修改书籍成功");
                 }
                 else {
-                    writer.println("修改失败");
+                    writer.println("修改书籍失败");
                 }
             } catch (FileUploadException e) {
                 e.printStackTrace();

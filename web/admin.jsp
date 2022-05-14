@@ -12,13 +12,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
   <title >图书管理后台</title>
   <!-- 引入网页图标 -->
     <link href="images/book.ico" rel="icon" type="image/x-icon" >
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css" >
 </head>
-
 <body >
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.16.1/umd/popper.min.js" ></script>
@@ -138,7 +136,7 @@
         </div>
 
 <%-- 3存放右侧要展示的页面--%>
-        <div class="col-lg-10" style="height: auto;background-color: whitesmoke">
+        <div class="col-lg-10" style="background-image: url(10.jpeg);height: auto">
             <div class="container-fluid">
                 <h4 style="color: mediumpurple">管理员:&nbsp;${sessionScope.msg.rdName}欢迎登录&nbsp;&nbsp;&nbsp;读者类型:${sessionScope.msg.rdTypeName}&nbsp;</h4>
                 <span class="h5" style="color: mediumpurple" id="show_time"> </span>

@@ -47,8 +47,8 @@ public class ReaderService_impl implements ReaderService {
     }
 
     @Override
-    public int Return_book(String rdID, String DateLendAct) {
-        return readerDao.Return_book(rdID,DateLendAct);
+    public int Return_book(String rdID,String bkID, String DateLendAct) {
+        return readerDao.Return_book(rdID,bkID,DateLendAct);
     }
 
     @Override

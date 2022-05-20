@@ -16,6 +16,6 @@ public interface ReaderService {
     //??????
     int AddReader(Reader reader);
     int Modify_reader(Reader reader);
-    int Return_book(String rdID,String DateLendAct);
+    int Return_book(String rdID,String bkID,String DateLendAct);
     int Borrow_book(Borrow borrow);
 }

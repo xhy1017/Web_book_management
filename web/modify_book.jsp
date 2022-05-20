@@ -62,6 +62,15 @@
                 <tr>
                     <td>${S.count}</td>
                     <td><img src="${Book.bkURL}" style="width:120px;height: 150px" alt=""></td>
+                    <style>
+                        img{
+                            transition: all 0.5s; /*transition:过度属性*/
+                            cursor: pointer;  /*当鼠标进入图片的时候，鼠标的样式变为手型 */
+                        }
+                        img:hover{
+                            transform: scale(1.2); /*transform:变形属性，scale：缩放1.1倍 */
+                        }
+                    </style>
                     <td style="vertical-align: middle"><strong>${Book.bkID}</strong></td>
                     <td style="color: darkorange;vertical-align:middle"><strong>${Book.bkName}</strong></td>
                     <td style="vertical-align: middle"><strong>${Book.bkAuthor}</strong></td>
@@ -69,7 +78,11 @@
                     <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
                     <td style="vertical-align: middle;color:dodgerblue">${Book.bkStatus}</td>
                     <td hidden>${Book.bkResume}</td>
-                    <td style="vertical-align: middle"><button id="modify_book_info" type="button" data-toggle="modal" data-target="#myModal"  class="btn btn-info">修改信息</button></td>
+                    <td style="vertical-align: middle"><button id="modify_book_info" type="button" data-toggle="modal" data-target="#myModal"  class="btn btn-info"
+                            <c:if test="${Book.bkStatus eq '借出'}">
+                        disabled
+                    </c:if>>修改信息</button></td>
+
                 </tr>
             </c:forEach>
         </c:if>
@@ -322,15 +335,16 @@
            bkPress = data.eq(5).text();
            bkPrice = data.eq(6).text();
            bkStatus = data.eq(7).text();
+           console.log(bkStatus)
            bkResume=data.eq(8).text();
-           //赋值给模态框里表单
-          $("#bkID").val(bkID);
-          $("#bkName").val(bkName);
-          $("#bkAuthor").val(bkAuthor);
-          $("#bkPress").val(bkPress);
-          $("#bkPrice").val(bkPrice);
-          $("#bkStatus").val(bkStatus);
-          $("#bkResume").val(bkResume);
+               //赋值给模态框里表单
+               $("#bkID").val(bkID);
+               $("#bkName").val(bkName);
+               $("#bkAuthor").val(bkAuthor);
+               $("#bkPress").val(bkPress);
+               $("#bkPrice").val(bkPrice);
+               $("#bkStatus").val(bkStatus);
+               $("#bkResume").val(bkResume);
        }
    })
     //添加input元素监听事件，值发生改变覆盖原来的值

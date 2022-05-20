@@ -272,11 +272,11 @@ public class ReaderDao_impl implements ReaderDao {
     }
 
     @Override
-    public int Return_book(String rdID, String DateLendAct) {
+    public int Return_book(String rdID,String bkID, String DateLendAct) {
         try {
             conn=JDBCUtils.getConnection();
             StringBuffer stringBuffer=new StringBuffer( "UPDATE borrow set DateLendAct='");
-            stringBuffer.append(DateLendAct).append("'").append(" where rdID='").append(rdID).append("'");
+            stringBuffer.append(DateLendAct).append("'").append(" where rdID='").append(rdID).append("'").append(" and bkID='").append(bkID).append("'");
             System.out.println(stringBuffer);
            pst=conn.prepareStatement(stringBuffer.toString());
             return  pst.executeUpdate();

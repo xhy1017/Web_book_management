@@ -7,15 +7,14 @@ import service.ReaderService;
 import service.ReaderService_impl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
 
 @WebServlet (name = "LoginServlet",urlPatterns = "/Login")
 public class LoginServlet extends HttpServlet {
@@ -31,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         //getWriter 字符流 输出文本内容 outputStream 输出二进制字节数组 字节流
         PrintWriter writer= resp.getWriter();
-        //获得用户类型//移动端登录 Android 使用的是OKHTTP请求，请求头为okhttp/4.9.3，既然这样直接当他是，不去管他的真实Agent
+        //获得用户类型//移动端登录 Android 使用的是OKHTTP请求，默认请求头为okhttp/4.9.3，没有设备信息
         String header = req.getHeader("User-Agent");
         System.out.println(header);
         String cookie2= req.getHeader("Cookie");
@@ -54,13 +53,14 @@ public class LoginServlet extends HttpServlet {
            if(reader!=null){
                //请求转发
                req.getSession().setAttribute("msg",reader);
-               resp.setHeader("rdName",URLEncoder.encode(reader.getRdName(),"UTF-8"));
-               req.getRequestDispatcher("/Find_bookServlet").forward(req,resp);
+               //可以把整个reader发给请求头
+               resp.setHeader("rdName",URLEncoder.encode(reader.getRdName(), StandardCharsets.UTF_8));//编码再发送
+               req.getRequestDispatcher("/Find_bookServlet").forward(req,resp);//请求转发
            }
            else {
                   writer.println("登录失败");
            }
-            return;
+            return;//返回
         }
         //非移动端处理
         StringBuffer url = req.getRequestURL();
@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
         String pwd= req.getParameter("rdpassword").trim();
         //创建readerservice对象
         ReaderService readerService=new ReaderService_impl();
-        //service调用dao层方法，获取的参数值传递给FindReader
+        //service调用dao层方法，获取的参数值传递给IsReader
         Reader reader = readerService.IsReader(rdid, pwd);
 //        判断reader是否存在，若1则跳转管理页面，否则提示用户名或密码错误
         if(reader!=null) {//登陆成功，跳转页面
@@ -84,21 +84,8 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("admin.jsp");
         }
         else {
-            req.getSession().setAttribute("errormsg","账号不存在或者账号密码错误");
+            req.getSession().setAttribute("errormsg","账号不存在或者账号密码错误");//前端页面提示信息
             resp.sendRedirect("login.jsp");
-//            //设置响应数据格式
-//            resp.setContentType("text/json;charset=UTF-8");
-//            //
-//            Gson gson=new Gson();
-//            //LINKED HASHMAP使得json输出有序存放
-//            JSONObject jsonObject=new JSONObject(new LinkedHashMap<>());
-//            //json数据key一定要与Android端bean类属性名一样否则转化不了为java类对象
-//            jsonObject.put("rdid",rdid);
-//            jsonObject.put("rdpassword",pwd);
-//            String json = gson.toJson(jsonObject);
-//            //字符输出流
-//            PrintWriter writer = resp.getWriter();
-//            writer.println(json);
         }
 
     }

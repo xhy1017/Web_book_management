@@ -49,6 +49,7 @@ public class Paged_Find_readerServlet extends HttpServlet {
         reader.setRdBorrowQty(rdBorrowQty);
         pageBean.setVague_query(reader);
         //后续点下一页的时候不用传pageSIZE，直接从session中拿到
+        /* 第一次查询*/
         if (request.getParameter("pageSize") == null) {
             String pagesize= request.getSession().getAttribute("PageBean_reader").toString();
             System.out.println(pagesize);

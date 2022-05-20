@@ -30,6 +30,14 @@
                     <select name="bkStatus" class="form-control">
                         <option value="在馆">在馆</option>
                         <option value="借出">借出</option>
+                        <%--                设置选中项--%>
+                        <script>
+                            <%--                  特殊对待  --%>
+                            <%--@elvariable id="PageBean_book" type="entity.PageBean"--%>
+                            <c:if test="${not empty PageBean_book.vague_query.bkStatus}">
+                            $("select:first").find("option[value=${sessionScope.PageBean_book.vague_query.bkStatus}]").attr("selected",true);
+                            </c:if>
+                        </script>
                     </select>
                 </td>
             </tr>
@@ -276,9 +284,16 @@
         let option=$("#delete input");
         let option2=$("#delete input:checked");
         var str="";
+        var status='${PageBean_book.vague_query.bkStatus}';
         //判断是否全选
         if($("#select_all").prop("checked"))
         {
+        if (status==='借出'){
+            if(confirm("他们都被借出了,不可以删除哦")){
+                return false ;
+            }
+            return false;
+            }
             if(confirm("你真的要删除吗?\n该数据不可恢复哦"))
             {
                 for (let i = 0; i <option.length ; i++) {
@@ -302,6 +317,12 @@
         }
         //不是全选状态
         if(option2.length>1){
+            if (status==='借出'){
+                if(confirm("他们都被借出了,不可以删除哦")){
+                    return false ;
+                }
+                return false;
+            }
             if(confirm("真的要把它们抛弃了吗\n帅的人已经醒来~~~hhh"))
             {
                 for (let i = 0; i < option2.length; i++) {

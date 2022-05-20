@@ -22,8 +22,6 @@ public class PageBean<T> {
     public void setVague_query(T vague_query) {
         Vague_query = vague_query;
     }
-
-
     public PageBean() {
 
     }
@@ -32,7 +30,6 @@ public class PageBean<T> {
         return list;
     }
     public PageBean(int pageSize, int totalPages, int totalRecord, int currentPage, List<T> list) {
-        this.pageSize = 10;
         this.pageSize = pageSize;
         this.totalPages = totalPages;
         this.totalRecord = totalRecord;

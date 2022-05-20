@@ -76,6 +76,7 @@
     </thead>
     <tbody>
     <%--查询的结果集list在servlet中被保存到域中--%>
+    <%--@elvariable id="PageBean_reader" type="entity.PageBean"--%>
     <c:if test="${not empty PageBean_reader.list}">
         <%--            循环拿到list集合对象--%>
         <%--     从请求域中拿到list属性--%>

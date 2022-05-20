@@ -41,6 +41,7 @@
                 <%--                设置选中项--%>
                 <script>
                     <%--                  特殊对待  --%>
+                    <%--@elvariable id="PageBean_book" type="entity.PageBean"--%>
                     <c:if test="${not empty PageBean_book.vague_query.bkStatus}">
                     $("select:first").find("option[value=${sessionScope.PageBean_book.vague_query.bkStatus}]").attr("selected",true);
                     </c:if>
@@ -95,6 +96,8 @@
                 <td style="vertical-align: middle"><strong>${Book.bkPress}</strong></td>
                 <td style="vertical-align: middle"><strong>${Book.bkPrice}</strong></td>
                 <td style="vertical-align: middle;color:dodgerblue"><strong>${Book.bkStatus}</strong></td>
+
+
                 <td hidden>${Book.bkResume}</td>
                 <td style="vertical-align: middle"><button data-toggle="modal"  data-target="#myModal" id="display_resume" class="btn btn-info">查看简介</button></td>
                 <style>

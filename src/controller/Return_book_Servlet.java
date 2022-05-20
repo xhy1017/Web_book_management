@@ -27,10 +27,12 @@ public class Return_book_Servlet extends HttpServlet {
         String rdID = request.getParameter("rdID");
         System.out.println("第三次"+request.getSession().isNew());
         System.out.println("读者号"+rdID);
+        String bkId = request.getParameter("bkID");
+        System.out.println("书号"+bkId);
         String dateLendAct = request.getParameter("DateLendAct");
         System.out.println("实际还书日期"+dateLendAct);
         ReaderService readerService=new ReaderService_impl();
-        int i = readerService.Return_book(rdID, dateLendAct);
+        int i = readerService.Return_book(rdID,bkId,dateLendAct);
         if(i>0){
             writer.println("还书成功!");
         }

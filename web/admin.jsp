@@ -136,7 +136,7 @@
         </div>
 
 <%-- 3存放右侧要展示的页面--%>
-        <div class="col-lg-10" style="background-image: url(10.jpeg);height: auto">
+        <div class="col-lg-10" style="background-image: url(16.jpeg);height: auto">
             <div class="container-fluid">
                 <h4 style="color: mediumpurple">管理员:&nbsp;${sessionScope.msg.rdName}欢迎登录&nbsp;&nbsp;&nbsp;读者类型:${sessionScope.msg.rdTypeName}&nbsp;</h4>
                 <span class="h5" style="color: mediumpurple" id="show_time"> </span>

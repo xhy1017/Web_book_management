@@ -36,7 +36,7 @@ public class Find_lend_book_Servlet extends HttpServlet {
             writer.println("您还没有借阅书籍呢");
         }
         else {
-            System.out.println(bookList.toString());
+            System.out.println(bookList);
             Gson gson=new Gson();
             String lend_book = gson.toJson(bookList);
             writer.println(lend_book);

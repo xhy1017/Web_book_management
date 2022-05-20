@@ -12,7 +12,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
+
 
 @WebServlet(name = "Paged_Servlet", value = "/Paged_Servlet")
 public class Paged_Find_bookServlet extends HttpServlet {
@@ -27,8 +27,6 @@ public class Paged_Find_bookServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = response.getWriter();
-        String dynamicPath = this.getServletContext().getRealPath("/images/");
-        System.out.println(dynamicPath);
         //拿到参数,封装给pagebean;
         String bkID = request.getParameter("bkID");
         System.out.println("书号:" + bkID);
@@ -45,7 +43,7 @@ public class Paged_Find_bookServlet extends HttpServlet {
         book.setBkAuthor(bkAuthor);
         book.setBkStatus(bkStatus);
         pageBean.setVague_query(book);
-        //后续点下一页的时候不用传pageSIZE，直接从session中拿到
+        //默认第一次查询后续点下一页的时候不用传pageSIZE，直接从session中拿到
         if (request.getParameter("pageSize") == null) {
            String pagesize= request.getSession().getAttribute("PageBean_book").toString();
             System.out.println(pagesize);

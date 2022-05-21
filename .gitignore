@@ -1,3 +1,5 @@
 # 项目排除路径
 /out/
 /web/WEB-INF/class/
+/web/images
+/web/User_Images

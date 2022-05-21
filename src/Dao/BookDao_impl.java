@@ -217,8 +217,8 @@ public class BookDao_impl implements BookDao {
 
             try {
                 conn = JDBCUtils.getConnection();
-                String vague_sql="select * from book where 1=1";
-                StringBuffer stringBuffer=new StringBuffer(vague_sql);
+                String vague_sql="select * from book where 1=1";//始终正确
+                StringBuffer stringBuffer=new StringBuffer(vague_sql);//Stringbuffer节省空间
                 if(pageBean.getVague_query().getBkID()!=null&& !"".equals(pageBean.getVague_query().getBkID())){
                     stringBuffer.append(" and bkID like '%").append(pageBean.getVague_query().getBkID()).append("%'");
                 }
@@ -293,7 +293,6 @@ public class BookDao_impl implements BookDao {
             }
             if(book.getBkPrice()!=null&&!"".equals(book.getBkPrice())){
                     stringBuffer.append(" bkPrice='").append(book.getBkPrice()).append("',");
-
             }
              if(book.getBkStatus()!=null&&!"".equals(book.getBkStatus())){
                     stringBuffer.append(" bkStatus='").append(book.getBkStatus()).append("',");

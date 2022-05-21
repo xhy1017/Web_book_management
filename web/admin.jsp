@@ -75,12 +75,12 @@
 
 <div class="container-fluid" >
     <div class="row">
-        <div class="col-lg-2" style="height:auto;background-color:mediumpurple;" >
+        <div class="col-lg-2" style="height:auto;background-image: url(2.jpg) ;background-color:mediumpurple;" >
             <div class="text-center">
                 <a href="javascript:void(0)"  style="font-size:larger;text-decoration:none;color: white;height: 110px;line-height: 60px">欢迎使用后台管理系统</a>
             </div>
-            <div id="accordion">
-                <div class="card">
+            <div id="accordion" >
+                <div class="card" >
                     <div class="card-header">
                         <a class="card-link" data-toggle="collapse" href="#collapseOne">
                             图书管理
@@ -134,9 +134,18 @@
                 </div>
             </div>
         </div>
+<script>
+    var array=['10.jpeg','3.jpg','10.jpeg','12.jpeg','13.jpeg','16.jpeg','17.jpg','11.jpg',];
+    var index;
+    setInterval(function (){
+        index=Math.floor(Math.random()*array.length);//生成随机整数0-7
+        console.log(index);
+        $("#change").css('background-image','url('+array[index]+')');
+    },4000)
 
+</script>
 <%-- 3存放右侧要展示的页面--%>
-        <div class="col-lg-10" style="background-image: url(16.jpeg);height: auto">
+        <div id="change" class="col-lg-10" style="background-image: url(13.jpeg);height: auto">
             <div class="container-fluid">
                 <h4 style="color: mediumpurple">管理员:&nbsp;${sessionScope.msg.rdName}欢迎登录&nbsp;&nbsp;&nbsp;读者类型:${sessionScope.msg.rdTypeName}&nbsp;</h4>
                 <span class="h5" style="color: mediumpurple" id="show_time"> </span>

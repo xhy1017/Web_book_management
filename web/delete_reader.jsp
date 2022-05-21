@@ -35,6 +35,7 @@
                 </td>
                 <%--                设置选中项--%>
                 <script>
+                    <%--@elvariable id="PageBean_reader" type="entity.PageBean"--%>
                     <c:if test="${not empty PageBean_reader.vague_query.rdType}">
                     $("select").find("option[value=${sessionScope.PageBean_reader.vague_query.rdType}]").attr("selected",true);
                     </c:if>
@@ -256,7 +257,7 @@
             else {
                 if(confirm("确认删除吗?")){
                     str+="checked="+option.value+"&";
-                    str=str.substring(0,str.length-1);
+                    str=str.substring(0,str.length-1);//去掉拼接的最后一个&
                     console.log(str)
                     $.post("Remove_reader_Servlet",str,function (data,status){
                         alert("删除成功");

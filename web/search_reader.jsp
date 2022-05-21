@@ -104,7 +104,7 @@
         <td style="vertical-align: middle"><strong>${Reader.rdDept}</strong></td>
         <td style="vertical-align: middle"><strong>${Reader.rdQQ}</strong></td>
         <td style="vertical-align: middle" class="text-center"><strong>${Reader.rdBorrowQty}</strong></td>
-        <td style="vertical-align: middle"><button type="button" class="btn btn-info">查看密码</button></td>
+        <td style="vertical-align: middle"><button type="button" id="show_pwd" class="btn btn-info">查看密码</button></td>
     <tr>
         </c:forEach>
         </c:if>
@@ -165,6 +165,14 @@
         </nav>
     </div>
 </div>
+<script>
+  $(document).click(function (e){
+      if($(e.target).attr('id')==='show_pwd'){
+          console.log($(e.target).text());
+          $(e.target).text("默认密码:123456")
+      }
+  })
+</script>
 <%--返回顶部--%>
 <script src="to-top.js"></script>
 <%--查询.js--%>
